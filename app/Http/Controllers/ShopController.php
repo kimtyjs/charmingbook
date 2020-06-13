@@ -16,6 +16,7 @@ class ShopController extends Controller
     {
         $products = Product::inRandomOrder()->take(12)->get();
 
+
         return view('pages.shop', compact('products'));
     }
 
@@ -42,7 +43,7 @@ class ShopController extends Controller
 
     /**
      * Display the specified resource.
-     *
+     *   cvgbhj
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
