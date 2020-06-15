@@ -1,7 +1,11 @@
 @extends('layouts.notfound')
 @section('title', 'Error 404')
 
-@section('notfound')
+@push('page_style')
+    <link type="text/css" rel="stylesheet" href="{{asset('css/components/notfound.css')}}" />
+@endpush
+
+@section('pages')
     <div id="notfound">
         <div class="notfound">
             <div class="notfound-404">

@@ -12,22 +12,13 @@
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:700,900" rel="stylesheet">
-
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="{{asset('css/components/notfound.css')}}" />
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @stack('page_style')
 
 </head>
 
 <body>
 
-@yield('notfound')
+@yield('pages')
 
 </body>
 </html>

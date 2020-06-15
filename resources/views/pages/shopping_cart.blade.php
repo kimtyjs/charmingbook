@@ -151,7 +151,7 @@
                                 <li>Tax(13) <span>{{ presentPrice(Cart::tax()) }}</span></li>
                                 <li>Total <span>{{ presentPrice(Cart::total()) }}</span></li>
                             </ul>
-                            <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                            <a href="{{route('checkout.index')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                         </div>
                     </div>
                 </div>
