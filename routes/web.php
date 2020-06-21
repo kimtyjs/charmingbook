@@ -15,9 +15,9 @@ Route::get('/shop','ShopController@index')->name('shop.index');
 Route::get('shop/{product}','ShopController@show')->name('shop.show');
 
 Route::get('/cart', 'CartController@index')->name('cart.index');
-Route::post('/cart', 'CartController@store')->name('cart.store');
+Route::get('/cart/addItem/{id}', 'CartController@addItem')->name('cart.addItem');
 Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
-Route::post('/cart/switchToSaveForLater/{product}', 'CartController@switchToSaveForLater')->name('cart.switchToSaveForLater');
+Route::put('cart/update/{id}', 'cartController@update')->name('cart.update');
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');

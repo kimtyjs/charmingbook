@@ -344,15 +344,9 @@
                                             <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                             <li>
-                                                <form id="cartform" action="{{route('cart.store')}}" method="POST">
-                                                    @csrf
-                                                    <a href="#" onclick="document.getElementById('cartform').submit()">
-                                                        <input type="hidden" name="id" value="{{$product->id}}">
-                                                        <input type="hidden" name="name" value="{{$product->name}}">
-                                                        <input type="hidden" name="price" value="{{$product->price}}">
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                    </a>
-                                                </form>
+                                                <a href="{{route('cart.addItem', $product->id)}}">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>

@@ -7,10 +7,15 @@ use NumberFormatter;
 
 class Product extends Model
 {
+
+    protected $fillable = [
+        'name', 'slug', 'details', 'price', 'description', 'featured', 'codes', 'image', 'images',
+        'quantity', 'category_id'
+    ];
+
     public function presentPrice() {
 
         $fmt = new NumberFormatter( 'Cambodia', NumberFormatter::CURRENCY );
-
         return numfmt_format_currency($fmt, $this->price / 100, 'USD');
     }
 }

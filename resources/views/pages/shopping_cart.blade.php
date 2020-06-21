@@ -10,6 +10,10 @@
             color: #28a745;
         }
 
+        .btn-outline-secondary {
+            border-color: white;
+        }
+
     </style>
 @endpush
 
@@ -76,29 +80,39 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach(Cart::content() as $item)
+                                @foreach($cartItems as $item)
                                     <tr>
                                         <td class="shoping__cart__item d-flex">
                                             <img src="{{asset('img/cart/cart-3.jpg')}}" alt="">
                                             <div class="d-flex align-items-center">
                                                 <div class="text-black-50">
-                                                    <h5>{{ $item->model->name }}</h5>
-                                                    <h6>{{ $item->model->details }}</h6>
+                                                    <h5>{{ $item->name }}</h5>
+                                                    <h6>{{ $item->details }}</h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="shoping__cart__price">
-                                           {{ $item->model->presentPrice() }}
+                                           ${{ $item->price }}
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input type="text" value="1">
+                                                    <form action="{{ route('cart.update', $item->rowId) }}" method="POST">
+                                                        <div class="input-group mb-3">
+                                                            <input type="hidden" name="_method" value="PUT" />
+                                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                                            <input type="hidden" name="proId" value="{{ $item->id }}" />
+                                                            <input type="number" min="1" max="10" class="form-control" value="{{ $item->qty }}" name="qty" aria-describedby="button-addon2">
+                                                            <div class="input-group-append">
+                                                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
-                                            {{ $item->model->quantity }}
+                                            ${{ $item->options->totalPriceForEachProduct }}
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <form id="delete_item" action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
@@ -147,9 +161,9 @@
                         <div class="shoping__checkout">
                             <h5>Cart Total</h5>
                             <ul>
-                                <li>Subtotal <span>{{ presentPrice(Cart::subtotal()) }}</span></li>
-                                <li>Tax(13) <span>{{ presentPrice(Cart::tax()) }}</span></li>
-                                <li>Total <span>{{ presentPrice(Cart::total()) }}</span></li>
+                                <li>Subtotal <span>{{ Cart::subtotal() }}</span></li>
+                                <li>Tax(13) <span>{{ Cart::tax() }}</span></li>
+                                <li>Total <span>{{ Cart::total() }}</span></li>
                             </ul>
                             <a href="{{route('checkout.index')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                         </div>
