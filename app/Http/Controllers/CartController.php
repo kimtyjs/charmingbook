@@ -102,8 +102,17 @@ class CartController extends Controller
         $qty = $request->qty;
         $productId = $request->proId;
         $product = Product::findOrFail($productId);
+        $stock = $product->quantity;
 
-        Cart::update($id, ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty]]);
+        if($qty > $stock) {
+            return back()->with('success_message', 'This product is limited number in your cart');
+        }
+
+        Cart::update(
+            $id,
+            ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty]]
+
+        );
         return back()->with('success_message', 'Quantity of product was changed in your cart');
 
     }
