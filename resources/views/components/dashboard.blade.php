@@ -4,6 +4,7 @@
         @include('partials.dashboard.navBar')
         <main class="dash-content">
             <div class="container-fluid">
+
                 {{ $slot }}
             </div>
         </main>

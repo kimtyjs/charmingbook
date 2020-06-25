@@ -45,9 +45,16 @@ Route::prefix('admin')->group(function () {
     Route::get('register', 'AdminController@returnAdminRegisterPage')->name('admin.register');
     Route::post('register', 'AdminController@postRegister')->name('admin.auth.register');
     Route::post('logout', 'Auth\AdminLoginController@adminLogout')->name('admin.auth.logout');
+
     Route::middleware(['admin'])->group(function () {
 
+        Route::get('/category/form', 'CategoryController@store')->name('category.store');
+
     });
+
+
+
+
 
 });
 
