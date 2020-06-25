@@ -4,6 +4,9 @@
 @section('contents')
     @component('components.dashboard')
         <div class="row dash-row">
+            @slot('title')
+                <h1 class="dash-title"></h1>
+            @endslot
             <div class="col-xl-4">
                 <div class="stats stats-primary">
                     <h3 class="stats-title"> Sign ups </h3>

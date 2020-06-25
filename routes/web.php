@@ -49,6 +49,9 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['admin'])->group(function () {
 
         Route::get('/category/form', 'CategoryController@store')->name('category.store');
+        Route::get('/product/form', 'ProductController@store')->name('product.store');
+        Route::get('/product/list', 'ProductController@index')->name('product.index');
+        Route::get('/user/list', 'UserController@index')->name('user.index');
 
     });
 
