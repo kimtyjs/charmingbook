@@ -30,7 +30,7 @@ class Category extends Model
 
         if($category->category_id !== null) {
 
-            $this->descendants[] = $category->name;
+            $this->descendants[] = $category;
         }
 
         if($category->hasChildren()){
@@ -54,4 +54,11 @@ class Category extends Model
             return $category->category_id <= 0 || $category->category_id === null;
         });
     }
+
+    public function products() {
+
+        return $this->belongsToMany(Product::class);
+    }
+
+
 }

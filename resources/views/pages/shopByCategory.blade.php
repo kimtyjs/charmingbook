@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-@section('title', 'Product Detail')
+@section('title', 'shop By Category')
 
 @push('styles')
     <style>
@@ -20,21 +20,6 @@
 @endsection
 
 @section('content')
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Organi Shop</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Shop</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <section class="product spad">
         <div class="container">
             <div class="row">
@@ -43,10 +28,8 @@
                         <div class="sidebar__item">
                             <h4>category</h4>
                             <ul>
-                                @foreach($parentCategories as $parentCategory)
-                                    <li>
-                                        <a href="{{ route('shop.shopFeatured',['categoryId' => $parentCategory->id, 'categorySlug' => $parentCategory->slug ]) }}">{{ $parentCategory->name }}</a>
-                                    </li>
+                                @foreach($secondCategories as $secondCategory)
+                                    <li><a href="{{ route('shop.shopByCategory', ['categoryId' => $secondCategory->id, 'categorySlug' => $secondCategory->slug ]) }}">{{ $secondCategory->name }}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -56,7 +39,6 @@
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
-                    @include('partials.shop.bestseller', ['title' => 'Bestselling', 'subTitle' => 'overAll'])
                     <div class="filter__item">
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
@@ -90,22 +72,22 @@
                                             <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                             <li>
-                                                <a href="{{route('cart.addItem', $product->id)}}">
+                                                <a href="#">
                                                     <i class="fa fa-shopping-cart"></i>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="product__item__text">
-                                        <h6><a href="{{route('shop.show', $product->slug)}}">{{ $product->name }}</a></h6>
-                                        <h5>{{ $product->presentPrice() }}</h5>
+                                        <h6><a href="#">{{ $product->name }}</a></h6>
+                                        <h5>${{ $product->price }}</h5>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-{{--                    <div class="product__pagination"></div>--}}
-                    {{ $products->links() }}
+                    {{--<div class="product__pagination"></div>--}}
+                    {{ $products->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>

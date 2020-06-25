@@ -23,8 +23,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '34f89wq',
             'quantity' => 12,
             'category_id' => 6
+        ])->categories()->attach(6);
 
-        ]);
         Product::create([
 
             'name' => 'A Game of Thrones',
@@ -35,8 +35,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '35f89qa',
             'quantity' => 9,
             'category_id' => 6
+        ])->categories()->attach(6);
 
-        ]);
         Product::create([
 
             'name' => 'Fantastic Beasts and Where to Find Them',
@@ -47,8 +47,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '38f89qa',
             'quantity' => 5,
             'category_id' => 6
+        ])->categories()->attach(6);
 
-        ]);
         Product::create([
 
             'name' => 'Shantaram',
@@ -59,8 +59,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '39f89qa',
             'quantity' => 5,
             'category_id' => 6
+        ])->categories()->attach(6);
 
-        ]);
         Product::create([
 
             'name' => 'A Clash of Kings',
@@ -71,8 +71,20 @@ class ProductTableSeeder extends Seeder
             'codes' => '34f79qa',
             'quantity' => 21,
             'category_id' => 6
+        ])->categories()->attach(6);
 
-        ]);
+        Product::create([
+
+            'name' => 'A Clash of Kings1',
+            'slug' => 'A-Clash-of-Kings1',
+            'details' => 'Nulla feugiat tristique odio, id porta mi1',
+            'price' => 45,
+            'description' => 'This book will lead you to the new world once you have read it finish.1',
+            'codes' => 'u4f79qq',
+            'quantity' => 5,
+            'category_id' => 6
+        ])->categories()->attach(6);
+
         //2. fiction -- fantasy
         Product::create([
 
@@ -85,7 +97,7 @@ class ProductTableSeeder extends Seeder
             'quantity' => 21,
             'category_id' => 7
 
-        ]);
+        ])->categories()->attach(7);
         Product::create([
 
             'name' => 'Harry Potter and the Philosopher\'s Stone',
@@ -96,8 +108,7 @@ class ProductTableSeeder extends Seeder
             'codes' => '34f79qz',
             'quantity' => 11,
             'category_id' => 7
-
-        ]);
+        ])->categories()->attach(7);
 
         //3. fiction --> Erotic Fiction
         Product::create([
@@ -110,8 +121,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '32f70qa',
             'quantity' => 17,
             'category_id' => 8
+        ])->categories()->attach(8);
 
-        ]);
         Product::create([
 
             'name' => 'Homebody',
@@ -122,8 +133,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '24f10qa',
             'quantity' => 5,
             'category_id' => 8
+        ])->categories()->attach(8);
 
-        ]);
         Product::create([
 
             'name' => 'Delta of Venus',
@@ -134,8 +145,7 @@ class ProductTableSeeder extends Seeder
             'codes' => '24f10qu',
             'quantity' => 5,
             'category_id' => 8
-
-        ]);
+        ])->categories()->attach(8);
 
         //4. fiction --> Historical Fiction
         Product::create([
@@ -148,8 +158,8 @@ class ProductTableSeeder extends Seeder
             'codes' => '24f11qu',
             'quantity' => 5,
             'category_id' => 9
+        ])->categories()->attach(9);
 
-        ]);
         Product::create([
 
             'name' => 'The Dutch House',
@@ -160,7 +170,6 @@ class ProductTableSeeder extends Seeder
             'codes' => '44f12qu',
             'quantity' => 5,
             'category_id' => 9
-
-        ]);
+        ])->categories()->attach(9);
     }
 }

@@ -158,7 +158,7 @@
                                 <ul>
                                     @foreach(Cart::content() as $item)
                                         <li>
-                                            {{ $item->model->name }} <span>{{ $item->model->presentPrice() }}</span>
+                                            {{ $item->name }} <span> {{ $item->qty }} item(s)</span>
                                         </li>
                                     @endforeach
                                 </ul>

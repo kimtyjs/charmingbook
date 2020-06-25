@@ -8,6 +8,7 @@ use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use http\Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -36,19 +37,19 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CheckoutRequest $request
+     * @return RedirectResponse
      */
     public function store(CheckoutRequest $request) {
 
         $content = Cart::content()->map(function ($item) {
-            return $item->model->slug.','.$item->qty;
+            return $item->slug.','.$item->qty;
         })->values()->toJson();
 
         try{
             Stripe::setApiKey(env('STRIPE_SECRET'));
             Stripe::charges()->create([
-                'amount' => Cart::total() / 100,
+                'amount' => Cart::total(),
                 'currency' => 'USD',
                 'source' => $request->stripeToken,
                 'description' => 'Order',

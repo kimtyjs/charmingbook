@@ -18,4 +18,11 @@ class Product extends Model
         $fmt = new NumberFormatter( 'Cambodia', NumberFormatter::CURRENCY );
         return numfmt_format_currency($fmt, $this->price / 100, 'USD');
     }
+
+    public function categories() {
+
+        return $this->belongsToMany(Category::class);
+
+    }
+
 }
