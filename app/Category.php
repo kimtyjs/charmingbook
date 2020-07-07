@@ -10,7 +10,7 @@ class Category extends Model
 
     private $descendants = [];
 
-    private function parent() {
+    public function parent() {
 
         return $this->hasMany(self::class, 'category_id');
     }

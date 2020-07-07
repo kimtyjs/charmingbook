@@ -12,15 +12,15 @@
             <a href="#!" class="dash-nav-item dash-nav-dropdown-toggle">
                 <i class="fas fa-chart-bar"></i> Category </a>
             <div class="dash-nav-dropdown-menu">
-                <a href="{{route('category.store')}}" class="dash-nav-dropdown-item">Adding Category</a>
-                <a href="#" class="dash-nav-dropdown-item">Category List</a>
+                <a href="{{ route('category.categoryForm') }}" class="dash-nav-dropdown-item">Adding Category</a>
+                <a href="{{ route('category.categoryList') }}" class="dash-nav-dropdown-item">Category List</a>
             </div>
         </div>
         <div class="dash-nav-dropdown ">
             <a href="#!" class="dash-nav-item dash-nav-dropdown-toggle">
                 <i class="fas fa-cube"></i> Product </a>
             <div class="dash-nav-dropdown-menu">
-                <a href="{{ route('product.store') }}" class="dash-nav-dropdown-item">Adding</a>
+                <a href="{{ route('product.returnProductForm') }}" class="dash-nav-dropdown-item">Adding</a>
                 <a href="{{ route('product.index') }}" class="dash-nav-dropdown-item">List</a>
             </div>
         </div>

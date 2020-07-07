@@ -19,10 +19,10 @@ class Product extends Model
         return numfmt_format_currency($fmt, $this->price / 100, 'USD');
     }
 
-    public function categories() {
+    public function categories() {  //many-to-many
 
         return $this->belongsToMany(Category::class);
 
     }
-
+    
 }
