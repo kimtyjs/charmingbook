@@ -33,7 +33,8 @@ class ShopController extends Controller
 
     public function shopFeatured($catId, $catSlug) {
 
-        $subCats = Category::getDescendants(Category::find($catId));
+        $subCategoryId = Category::find($catId);
+        $subCats = Category::getDescendants($subCategoryId);
         $categories = Category::all();
         $categoryName = $categories->where('slug', $catSlug)->first()->name;
 

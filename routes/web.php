@@ -45,9 +45,22 @@ Route::prefix('admin')->group(function () {
     Route::get('register', 'AdminController@returnAdminRegisterPage')->name('admin.register');
     Route::post('register', 'AdminController@postRegister')->name('admin.auth.register');
     Route::post('logout', 'Auth\AdminLoginController@adminLogout')->name('admin.auth.logout');
+
     Route::middleware(['admin'])->group(function () {
 
+        Route::get('/category/list', 'CategoryController@categoryList')->name('category.categoryList');
+        Route::get('/category/form', 'CategoryController@categoryForm')->name('category.categoryForm');
+        Route::post('/category/form', 'CategoryController@categoryFormAdding')->name('category.categoryFormAdding');
+        Route::get('/product/form', 'ProductController@returnProductForm')->name('product.returnProductForm');
+        Route::post('/product/form', 'ProductController@store')->name('product.store');
+        Route::get('/product/list', 'ProductController@index')->name('product.index');
+        Route::get('/user/list', 'UserController@index')->name('user.index');
+
     });
+
+
+
+
 
 });
 

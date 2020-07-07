@@ -12,12 +12,9 @@
     </form>
     <div class="tools">
         <a href="#" target="_blank" class="tools-item">
-{{--            <i class="fab fa-github"></i>--}}
-
-                @if(Auth::check())
-                    {{ Auth::user()->name }}
-                @endif
-
+            @if(Auth::check())
+                {{ Auth::user()->name }}
+            @endif
         </a>
         <a href="#!" class="tools-item">
             <i class="fas fa-bell"></i>
