@@ -22,8 +22,6 @@ class ShopController extends Controller
         $products = Product::take(12)->paginate(6)->OnEachSide(3);
         $categories = Category::getParentCategory();
 
-
-
         return view('pages.shop')->with([
             'products' => $products,
             'parentCategories' => $categories

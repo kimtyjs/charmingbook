@@ -85,7 +85,7 @@
                         @foreach($products as $product)
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="{{asset('img/product/9780007480999.jpg')}}">
+                                    <div class="product__item__pic set-bg" data-setbg="{{url('img/product', $product->image)}}">
                                         <ul class="product__item__pic__hover">
                                             <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                             <li><a href="#"><i class="fa fa-retweet"></i></a></li>
