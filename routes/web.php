@@ -56,6 +56,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/product/list', 'ProductController@index')->name('product.index');
         Route::get('/product/show/{id}/{product}', 'ProductController@show')->name('product.show');
         Route::patch('/product/update/{product}', 'ProductController@edit')->name('product.update');
+        Route::delete('/product/destroy/{product}', 'ProductController@deleteProduct')->name('product.destroy');
         Route::get('/user/list', 'UserController@index')->name('user.index');
 
     });

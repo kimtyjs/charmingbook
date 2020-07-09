@@ -1,6 +1,12 @@
 @extends('layouts.backend')
 @section('title', 'Dashboard | User Management')
 
+@push('styles')
+    <style>
+        .fa-trash-alt-ic {  color: red; }
+    </style>
+@endpush
+
 @section('contents')
     @component('components.dashboard')
         <div class="row">
@@ -36,6 +42,7 @@
                                 <th scope="col">Type</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Detail</th>
+                                <th scope="col">Remove</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -57,6 +64,17 @@
                                                 <i class="fas fa-edit"></i>
                                             </div>
                                         </a>
+                                    </td>
+                                    <td>
+                                        <form id="form-delete" method="post" action="{{route('product.destroy', $productList->id)}}">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <a class="fa-trash-alt-ic" href="#" onclick="document.getElementById('form-delete').submit()">
+                                                <div class="icon">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </div>
+                                            </a>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

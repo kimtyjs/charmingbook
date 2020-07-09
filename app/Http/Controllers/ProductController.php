@@ -141,6 +141,15 @@ class ProductController extends Controller
         $product->save();   //save into database
 
         return redirect()->route('product.index')->with('success_message', 'Product has been updated');
+    }
+
+    public function deleteProduct($productId) {
+
+        $product = Product::findOrFail($productId);
+        $product->categories()->detach($productId);
+        $product->delete();
+
+        return redirect()->route('product.index')->with('success_message', 'Product has been deleted!');
 
     }
 
