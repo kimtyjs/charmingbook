@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -58,6 +62,85 @@ class ProductController extends Controller
 
         Product::create($formInput)->categories()->attach($category_id);
         return redirect()->back()->with('success_message', 'Product has been added');
+
+    }
+
+    public function show($productId, $productSlug) {
+
+        $product = Product::where('slug', $productSlug)->firstOrFail();
+
+        return view('pages.dashboard.productEdit', compact('product'));
+
+    }
+
+    public function edit(Request $request, $productId) {
+
+        $rule = [
+            'image' => ['sometimes', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
+            'slug' => ['sometimes', 'string', Rule::unique('products')->ignore($productId)],
+            'name' => ['sometimes', 'min:5', 'string', Rule::unique('products')->ignore($productId)],
+            'description' => ['sometimes', 'string', 'max:5000'],
+            'codes' => ['sometimes', 'min:5', Rule::unique('products')->ignore($productId)],
+            'price' => ['sometimes'],
+            'quantity' => ['sometimes']
+
+        ];
+        $validator = Validator::make($request->all(), $rule);
+        if ($validator->fails()) {
+
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+
+        }
+
+        //getting input from inputting form
+        $slug = $request->input('slug');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $codes = $request->input('codes');
+        $price = $request->input('price');
+        $quantity = $request->input('quantity');
+        $updated_at = new DateTime;
+
+        //Use Eloquent to grab the product record that we want to update,
+        $product = Product::find($productId);
+
+        if($request->hasFile('image')) {
+
+            //let delete old image before storing new image
+            $imagePath = Product::select('image')->where('id', $productId)->first();
+
+            $filePath = public_path('img/product'). "/" .$imagePath->image;
+            if(file_exists($filePath)) {
+                @unlink($filePath);
+            }
+
+            //storing the very new image
+            $image = $request->file('image'); //get the new image from inputting form
+            $updated_at = new DateTime;
+
+            $imageName = md5($image->getClientOriginalName() . time()) . "." . $image->getClientOriginalExtension();
+            $image->move(public_path('img/product'), $imageName);
+
+            //updating data in database, the same as $product->save();
+            DB::table('products')->where('id', $productId)->update([
+                'image' => $imageName,
+                'updated_at' => $updated_at
+            ]);
+        }
+
+        $product->slug = $slug ?: $product->slug;
+        $product->name = $name ?: $product->name;   //==$product->name = $name ? $name: $product->name;
+        $product->description = $description ?: $product->description;
+        $product->codes = $codes ?: $product->codes;
+        $product->price = $price ?: $product->price;
+        $product->quantity = $quantity ?: $product->quantity;
+        $product->updated_at = $updated_at ?: $product->updated_at;
+
+        $product->save();   //save into database
+
+        return redirect()->route('product.index')->with('success_message', 'Product has been updated');
 
     }
 
