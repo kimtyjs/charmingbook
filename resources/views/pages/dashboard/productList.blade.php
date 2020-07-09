@@ -1,12 +1,28 @@
 @extends('layouts.backend')
 @section('title', 'Dashboard | User Management')
 
+@push('styles')
+    <style>
+        .fa-trash-alt-ic {  color: red; }
+    </style>
+@endpush
+
 @section('contents')
     @component('components.dashboard')
         <div class="row">
             @slot('title')
                 <h1 class="dash-title">Product Listing</h1>
             @endslot
+                @if(session()->has('success_message'))
+                    <div class="col-xl-12">
+                        <div class="alert alert-success text-center alert-dismissible fade show" role="alert">
+                            {{ session()->get('success_message') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
             <div class="col-lg-12">
                 <div class="card easion-card">
                     <div class="card-header">
@@ -22,11 +38,11 @@
                                 <th scope="col">Image</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Code</th>
-                                <th scope="col">Details</th>
-                                <th scope="col">Description</th>
                                 <th scope="col">Price($)</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">Detail</th>
+                                <th scope="col">Remove</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -37,13 +53,29 @@
                                     </td>
                                     <td>{{ $productList->name }}</td>
                                     <td>{{ $productList->codes }}</td>
-                                    <td>{{ $productList->details }}</td>
-                                    <td>{{ $productList->description }}</td>
                                     <td>{{ $productList->price }}</td>
                                     @foreach($productList->categories as $category)
                                         <td>{{ $category->name }}</td>
                                     @endforeach
                                     <td>{{ $productList->quantity }}</td>
+                                    <td>
+                                        <a href="{{route('product.show', [$productList->id, $productList->slug])}}">
+                                            <div class="icon">
+                                                <i class="fas fa-edit"></i>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <form id="form-delete" method="post" action="{{route('product.destroy', $productList->id)}}">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <a class="fa-trash-alt-ic" href="#" onclick="document.getElementById('form-delete').submit()">
+                                                <div class="icon">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </div>
+                                            </a>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
