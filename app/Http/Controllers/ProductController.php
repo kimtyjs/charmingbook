@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
-use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,14 +20,14 @@ class ProductController extends Controller
     public function index() {
 
         $products = Product::all();
-        return view('pages.dashboard.productList', compact('products'));
+        return view('pages.dashboard.product.productList', compact('products'));
 
     }
 
     public function returnProductForm() {
 
         $categories = Category::pluck('name', 'id');
-        return view('pages.dashboard.productForm', compact('categories'));
+        return view('pages.dashboard.product.productForm', compact('categories'));
     }
 
     public function store(Request $request) {
@@ -69,7 +68,7 @@ class ProductController extends Controller
 
         $product = Product::where('slug', $productSlug)->firstOrFail();
 
-        return view('pages.dashboard.productEdit', compact('product'));
+        return view('pages.dashboard.product.productEdit', compact('product'));
 
     }
 
