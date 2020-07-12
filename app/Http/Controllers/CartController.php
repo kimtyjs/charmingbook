@@ -21,10 +21,8 @@ class CartController extends Controller
     public function index() {
 
         $cartItems = Cart::content();
-
         return view('pages.shopping_cart', compact('cartItems'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +60,10 @@ class CartController extends Controller
             'name' => $product->name,
             'qty' => 1,
             'price' => $product->price,
-            'options' => ['totalPriceForEachProduct' => $product->price * 1]
+            'options' => [
+                'totalPriceForEachProduct' => $product->price * 1,
+                'productImage' => $product->image
+            ]
         ]);
         return redirect()->route('cart.index')->with('success_message', 'Item was added to your cart');
 

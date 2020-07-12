@@ -152,7 +152,7 @@
                                                 <label> User ID </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p> 674591 </p>
+                                                <p> {{ $user->id + 8945344553 }} </p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -160,7 +160,7 @@
                                                 <label> Username </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>LOL</p>
+                                                <p>{{ $user->name }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -168,7 +168,7 @@
                                                 <label>Email</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>LOL</p>
+                                                <p>{{ $user->email }}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -176,7 +176,9 @@
                                                 <label> Role </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p> Admin </p>
+                                                @foreach($user->roles as $role)
+                                                    <p> {{ $role->name }} </p>
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="row">
@@ -200,7 +202,7 @@
                                          aria-labelledby="profile-tab">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label> Create At </label>
+                                                <label> Account Creation </label>
                                             </div>
                                             <div class="col-md-6">
                                                 <p> {{ $user->created_at }}</p>
@@ -208,7 +210,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label> Update At </label>
+                                                <label> Account Updating </label>
                                             </div>
                                             <div class="col-md-6">
                                                 <p> {{ $user->updated_at }} </p>
@@ -219,7 +221,23 @@
                                                 <label> Last Sign out </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p> 11-07-2019 5:30 AM </p>
+                                                <p> {{ $user->last_login_at }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Current Login In </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> 2020-07-10 16:04:12 AM </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label> Status </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p> Offline</p>
                                             </div>
                                         </div>
                                     </div>

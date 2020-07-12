@@ -28,36 +28,36 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                   @foreach($users as $user)
-                                       <td> {{ $user->name }} </td>
-                                       <td> {{ $user->email }}</td>
-                                       @foreach($user->roles as $role)
-                                           <td>{{ $role->name }}</td>
-                                       @endforeach
-                                       @foreach($user->permissions as $permission)
-                                            <td> {{ $permission->name }}</td>
-                                       @endforeach
-                                       <td>
-                                           <a href="{{route('user.checkProfile', [$user->id, $user->name])}}">
-                                               <div class="icon">
-                                                   <i class="fas fa-user-check"></i>
-                                               </div>
-                                           </a>
-                                       </td>
-                                       <td>
-                                           <div class="btn-group">
-                                               <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenu1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                   Disable
-                                               </button>
-                                               <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                   <a class="dropdown-item" href="#">Banned</a>
-                                                   <a class="dropdown-item" href="#">Remove</a>
-                                               </div>
-                                           </div>
-                                       </td>
+                                    @foreach($users as $user)
+                                        <tr>
+                                            <td> {{ $user->name }} </td>
+                                            <td> {{ $user->email }}</td>
+                                            @foreach($user->roles as $role)
+                                                <td>{{ $role->name }}</td>
+                                            @endforeach
+                                            @foreach($user->permissions as $permission)
+                                                <td> {{ $permission->name }}</td>
+                                            @endforeach
+                                            <td>
+                                                <a href="{{route('user.checkProfile', [$user->id, $user->name])}}">
+                                                    <div class="icon">
+                                                        <i class="fas fa-user-check"></i>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenu1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Disable
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                        <a class="dropdown-item" href="#">Banned</a>
+                                                        <a class="dropdown-item" href="#">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @endforeach
-                                </tr>
                                 </tbody>
                             </table>
                         </div>

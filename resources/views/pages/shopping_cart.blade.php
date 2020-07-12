@@ -83,7 +83,7 @@
                                 @foreach($cartItems as $item)
                                     <tr>
                                         <td class="shoping__cart__item d-flex">
-                                            <img src="{{asset('img/cart/cart-3.jpg')}}" alt="">
+                                            <img src="{{url('img/product', $item->options->productImage)}}" alt="{{$item->name}}" width="80">
                                             <div class="d-flex align-items-center">
                                                 <div class="text-black-50">
                                                     <h5>{{ $item->name }}</h5>

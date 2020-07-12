@@ -24,4 +24,6 @@ class UserController extends Controller
         $user = User::where('id', $id)->firstOrFail();
         return view('pages.dashboard.user.userDetailProfile', compact('user'));
     }
+
+
 }
