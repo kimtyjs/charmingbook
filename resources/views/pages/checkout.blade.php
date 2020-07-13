@@ -133,13 +133,13 @@
                                         <div class="col-lg-6">
                                             <div class="checkout__input">
                                                 <p>UserName<span>*</span></p>
-                                                <input type="text" name="name" id="name" value="{{old('name')}}" required>
+                                                <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" readonly required>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="checkout__input">
                                                 <p>Email<span>*</span></p>
-                                                <input type="email" name="email" id="email" value="{{old('email')}}" required>
+                                                <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" readonly required>
                                             </div>
                                         </div>
                                     </div>

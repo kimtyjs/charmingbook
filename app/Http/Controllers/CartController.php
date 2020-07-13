@@ -111,7 +111,7 @@ class CartController extends Controller
 
         Cart::update(
             $id,
-            ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty]]
+            ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty, 'productImage' => $product->image]]
 
         );
         return back()->with('success_message', 'Quantity of product was changed in your cart');

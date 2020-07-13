@@ -31,7 +31,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                 src="{{asset('img/product/details/product-details-1.jpg')}}" alt="">
+                                 src="{{url('img/product', $product->image)}}" alt="{{ $product->image }}">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
                             <img data-imgbigurl="img/product/details/product-details-2.jpg"
@@ -58,17 +58,19 @@
                         </div>
                         <div class="product__details__price">{{ $product->presentPrice() }}</div>
                         <p>{{ $product->description }}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+                        @if($product->quantity > 0)
+                            <div class="product__details__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="text" value="1">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                            <a href="{{ route('cart.addItem', $product->id) }}" class="primary-btn">ADD TO CARD</a>
+                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        @endif
                         <ul>
-                            <li><b>Availability</b> {{ $product->quantity }} <span>In Stock</span></li>
+                            <li><b>Availability</b> <span>{!! $stockLevel !!}</span></li>
                             <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                             <li><b>Details</b> <span>{{ $product->details }}</span></li>
                             <li><b>Share on</b>

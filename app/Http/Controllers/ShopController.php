@@ -90,7 +90,11 @@ class ShopController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        return view('pages.product_detail', compact('product'));
+
+        return view('pages.product_detail')->with([
+            'product' => $product,
+            'stockLevel' => getStockLevel($product->quantity)
+        ]);
     }
 
     /**

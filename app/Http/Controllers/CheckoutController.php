@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckoutRequest;
 use App\Order;
 use App\OrderProduct;
+use App\Product;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -15,16 +16,32 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class CheckoutController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return Factory|Application|View
+     * @return Factory|Application|RedirectResponse|View
+     * @return RedirectResponse
      */
     public function index() {
+
+        if (Cart::instance('default')->count() === 0) {
+            return redirect()->route('shop.index');
+        }
+
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
 
         return view('pages.checkout')->with([
 
@@ -55,6 +72,11 @@ class CheckoutController extends Controller
      */
     public function store(CheckoutRequest $request) {
 
+        //check race condition when there are less items available to purchase
+        if($this->productAreNotLongerAvailable()) {
+            return back()->withErrors('Sorry one of the items in your cart is no longer available!');
+        }
+
         $content = Cart::content()->map(function ($item) {
             return $item->slug.','.$item->qty;
         })->values()->toJson();
@@ -77,15 +99,8 @@ class CheckoutController extends Controller
             //insert into order_table
             $this->addToOrdersTable($request, null);
 
-            //insert into order__product_table
-            foreach(Cart::content() as $item) {
-
-                OrderProduct::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item->id,
-                    'quantity' => $item->qty
-                ]);
-            }
+            //decrease the quantity of the any product when any users successfully buy
+            $this->decreaseQuantities();
 
             //success
             Cart::instance('default')->destroy();
@@ -163,6 +178,39 @@ class CheckoutController extends Controller
             'billing_total' => $this->getNumbers()->get('newTotal'),
             'error' => $error
         ]);
+
+        //insert into order__product_table
+        foreach(Cart::content() as $item) {
+
+            OrderProduct::create([
+                'order_id' => $order->id,
+                'product_id' => $item->id,
+                'quantity' => $item->qty
+            ]);
+        }
+
+        return $order;
+    }
+
+    protected function decreaseQuantities(): void {
+
+        foreach (Cart::content() as $item) {
+
+            $product = Product::find($item->id);
+            $product->update(['quantity' => $product->quantity - $item->qty]);
+        }
+    }
+
+    protected function productAreNotLongerAvailable(): bool {
+
+        foreach(Cart::content() as $item) {
+            $product = Product::find($item->id);
+            if($product->quantity < $item->qty || $product->quantity === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function getNumbers() {
