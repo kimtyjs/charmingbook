@@ -1,9 +1,11 @@
 <?php
 
+use Gloudemans\Shoppingcart\Facades\Cart;
+
 function presentPrice($price) {
 
     $fmt = new NumberFormatter( 'Cambodia', NumberFormatter::CURRENCY );
-    return numfmt_format_currency($fmt, $price / 100, 'USD');
+    return numfmt_format_currency($fmt, $price, 'USD');
 }
 
 function getStockLevel($quantity) {
@@ -17,6 +19,24 @@ function getStockLevel($quantity) {
     }
 
     return $stockLevel;
+}
+
+function getNumbers() {
+
+    $tax = config('cart.tax') / 100;
+    $discount = session()->get('coupon')['discount'] ?? 0;
+    $code = session()->get('coupon')['name'] ?? null;
+    $newSubtotal = (Cart::subtotal() - $discount);
+    $newTax = $newSubtotal * $tax;
+    $newTotal = $newSubtotal * (1 + $tax);
+
+    return collect([
+        'discount' => $discount,
+        'code' => $code,
+        'newSubtotal' => $newSubtotal,
+        'newTax' => $newTax,
+        'newTotal' => $newTotal
+    ]);
 
 }
 

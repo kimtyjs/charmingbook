@@ -25,11 +25,11 @@ class CreateOrdersTable extends Migration
             $table->string('billing_postal_code');
             $table->string('billing_phone');
             $table->string('billing_name_on_card');
-            $table->integer('billing_discount')->default(0);
+            $table->decimal('billing_discount', 8, 2)->default(0);
             $table->string('billing_discount_code')->nullable();
-            $table->integer('billing_subtotal');
-            $table->integer('billing_tax');
-            $table->integer('billing_total');
+            $table->decimal('billing_subtotal', 8, 2);
+            $table->decimal('billing_tax', 8, 2);
+            $table->decimal('billing_total', 8, 2);
             $table->string('payment_gateway')->default('stripe');
             $table->boolean('shipped')->default(false);
             $table->string('error')->nullable();

@@ -36,9 +36,9 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'min:5', 'unique:products'],
             'slug' => ['required', 'string', 'min:5', 'unique:products'],
             'codes' => ['required', 'string', 'min:5', 'unique:products'],
-            'details' => ['required', 'string', 'min:7'],
-            'price' => ['required'],
-            'quantity' => ['required'],
+            'details' => ['required', 'string', 'min:7', 'max:100'],
+            'price' => ['required', 'numeric', 'min:1'],
+            'quantity' => ['required', 'numeric', 'min:0'],
             'image' => ['required', 'mimes:jpeg,jpg,png','max:10000'],
             'description' => ['required', 'max:5000']
         ]);

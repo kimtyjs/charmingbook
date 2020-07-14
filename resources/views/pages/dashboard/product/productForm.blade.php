@@ -26,9 +26,8 @@
                         <div class="easion-card-title"> Product Form </div>
                     </div>
                     <div class="card-body ">
-                        <form action="{{ route('product.store') }}" id="product-form" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-
                             <div class="form-row">
                                 <div class="form-group col-md-6{{$errors->has('name')?' has-error':''}}">
                                     <label for="inputName">Name</label>
@@ -105,14 +104,3 @@
     @endcomponent
 @endsection
 
-@push('scripts')
-    <script>
-        (function () {
-            let attachedForm = document.getElementById('product-form');
-            attachedForm.addEventListener('submit', function (event) {
-                event.preventDefault();
-            });
-
-        })()
-    </script>
-@endpush

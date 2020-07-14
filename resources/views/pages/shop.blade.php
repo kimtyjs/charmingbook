@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a href="{{route('shop.show', $product->slug)}}">{{ $product->name }}</a></h6>
-                                        <h5>{{ $product->presentPrice() }}</h5>
+                                        <h5>{{ presentPrice($product->price) }}</h5>
                                     </div>
                                 </div>
                             </div>

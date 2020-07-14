@@ -21,7 +21,16 @@ class CartController extends Controller
     public function index() {
 
         $cartItems = Cart::content();
-        return view('pages.shopping_cart', compact('cartItems'));
+        $subtotal = Cart::subtotal();
+        $tax = Cart::tax();
+        $total = Cart::total();
+
+        return view('pages.shopping_cart')->with([
+            'cartItems' => $cartItems,
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'total' => $total
+        ]);
     }
 
     /**

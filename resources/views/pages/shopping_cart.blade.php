@@ -92,7 +92,7 @@
                                             </div>
                                         </td>
                                         <td class="shoping__cart__price">
-                                           ${{ $item->price }}
+                                           {{ presentPrice($item->price )}}
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
@@ -112,7 +112,7 @@
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
-                                            ${{ $item->options->totalPriceForEachProduct }}
+                                            {{ presentPrice($item->options->totalPriceForEachProduct) }}
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <form id="delete_item" action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
@@ -161,9 +161,9 @@
                         <div class="shoping__checkout">
                             <h5>Cart Total</h5>
                             <ul>
-                                <li>Subtotal <span>{{ Cart::subtotal() }}</span></li>
-                                <li>Tax(13) <span>{{ Cart::tax() }}</span></li>
-                                <li>Total <span>{{ Cart::total() }}</span></li>
+                                <li>Subtotal <span>{{ presentPrice($subtotal) }}</span></li>
+                                <li>Tax(13) <span>{{ presentPrice($tax) }}</span></li>
+                                <li>Total <span>{{ presentPrice($total)}}</span></li>
                             </ul>
                             <a href="{{route('checkout.index')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                         </div>

@@ -200,7 +200,7 @@
                                             @endforeach
                                         </ul>
                                         <div class="checkout__order__subtotal">Subtotal
-                                            <span>{{ Cart::subtotal() }}</span>
+                                            <span>{{ presentPrice($subtotal) }}</span>
                                         </div>
                                         @if(session()->has('coupon'))
                                             <div class="checkout__order__discount">

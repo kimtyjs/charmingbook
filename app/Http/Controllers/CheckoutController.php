@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\CheckoutRequest;
 use App\Order;
 use App\OrderProduct;
@@ -45,10 +44,11 @@ class CheckoutController extends Controller
 
         return view('pages.checkout')->with([
 
-            'discount' => $this->getNumbers()->get('discount'),
-            'newSubtotal' => $this->getNumbers()->get('newSubtotal'),
-            'newTax' => $this->getNumbers()->get('newTax'),
-            'newTotal' => $this->getNumbers()->get('newTotal')
+            'discount' => getNumbers()->get('discount'),
+            'subtotal' => Cart::subtotal(),
+            'newSubtotal' => getNumbers()->get('newSubtotal'),
+            'newTax' => getNumbers()->get('newTax'),
+            'newTotal' => getNumbers()->get('newTotal')
 
         ]);
     }
@@ -171,11 +171,11 @@ class CheckoutController extends Controller
             'billing_postal_code' => $request->postalcode,
             'billing_phone' => $request->phonenumber,
             'billing_name_on_card' => $request->name_on_card,
-            'billing_discount' => $this->getNumbers()->get('discount'),
-            'billing_discount_code' => $this->getNumbers()->get('code'),
-            'billing_subtotal' => $this->getNumbers()->get('newSubtotal'),
-            'billing_tax' => $this->getNumbers()->get('newTax'),
-            'billing_total' => $this->getNumbers()->get('newTotal'),
+            'billing_discount' => getNumbers()->get('discount'),
+            'billing_discount_code' => getNumbers()->get('code'),
+            'billing_subtotal' => getNumbers()->get('newSubtotal'),
+            'billing_tax' => getNumbers()->get('newTax'),
+            'billing_total' => getNumbers()->get('newTotal'),
             'error' => $error
         ]);
 
@@ -211,24 +211,6 @@ class CheckoutController extends Controller
         }
 
         return false;
-    }
-
-    private function getNumbers() {
-
-        $tax = config('cart.tax') / 100;
-        $discount = session()->get('coupon')['discount'] ?? 0;
-        $code = session()->get('coupon')['name'] ?? null;
-        $newSubtotal = (Cart::subtotal() - $discount);
-        $newTax = $newSubtotal * $tax;
-        $newTotal = $newSubtotal * (1 + $tax);
-
-        return collect([
-            'discount' => $discount,
-            'code' => $code,
-            'newSubtotal' => $newSubtotal,
-            'newTax' => $newTax,
-            'newTotal' => $newTotal
-        ]);
     }
 
 }
