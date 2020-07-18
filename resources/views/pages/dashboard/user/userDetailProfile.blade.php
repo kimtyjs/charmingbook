@@ -121,6 +121,9 @@
                                         <li class="nav-item">
                                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#accinfo" role="tab" aria-controls="accinfo" aria-selected="false"> Account Info </a>
                                         </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="history-tab" data-toggle="tab" href="#orderinfo" role="tab" aria-controls="orderinfo" aria-selected="false"> Buying History </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -238,6 +241,31 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <p> Offline</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="orderinfo" role="tabpanel"
+                                         aria-labelledby="history-tab">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label> Number of Order </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>{{ $user->orders->count() }} Time(s)</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <a href="{{route('user.ordering', [$user->id, $user->name])}}"><i class="fas fa-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label> Bought Product(s) Total </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>{{ $product }} Item(s)</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <a href="#"><i class="fas fa-arrow-right"></i></a>
                                             </div>
                                         </div>
                                     </div>

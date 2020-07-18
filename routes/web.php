@@ -62,10 +62,10 @@ Route::prefix('admin')->group(function () {
         Route::delete('/product/destroy/{product}', 'ProductController@deleteProduct')->name('product.destroy');
         Route::get('/user/list', 'UserController@index')->name('user.index');
         Route::get('/user/check/detail/{id}/{name}', 'UserController@checkUserDetail')->name('user.checkProfile');
+        Route::get('/user/check/detail/{id}/{name}/order', 'UserController@checkOrderHistory')->name('user.ordering');
+        Route::get('/user/check/detail/{id}/{name}/order/invoice/{array}', 'UserController@getInvoice')->name('user.invoice');
 
     });
-
-
 
 
 

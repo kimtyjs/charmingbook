@@ -13,16 +13,15 @@ class Product extends Model
         'quantity', 'category_id'
     ];
 
-    public function presentPrice() {
-
-        $fmt = new NumberFormatter( 'Cambodia', NumberFormatter::CURRENCY );
-        return numfmt_format_currency($fmt, $this->price / 100, 'USD');
-    }
-
     public function categories() {  //many-to-many
 
         return $this->belongsToMany(Category::class);
 
     }
-    
+
+    public function orders() {
+        return $this->belongsToMany(Order::class)->withPivot('quantity');
+    }
+
+
 }
