@@ -56,7 +56,7 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price">{{ $product->presentPrice() }}</div>
+                        <div class="product__details__price">{{ presentPrice($product->price) }}</div>
                         <p>{{ $product->description }}</p>
                         @if($product->quantity > 0)
                             <div class="product__details__quantity">

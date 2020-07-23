@@ -16,6 +16,7 @@ Route::get('shop/{product}','ShopController@show')->name('shop.show');
 Route::get('/shop/category/{catId}/{catSlug}','Shopcontroller@shopFeatured')->name('shop.shopFeatured');
 Route::get('/shop/category/sub-category/{categoryId}/{categorySlug}', 'ShopController@shopByCategory')->name('shop.shopByCategory');
 
+Route::get('/find/product', 'SearchController@search')->name('product.search');
 
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::get('/cart/addItem/{id}', 'CartController@addItem')->name('cart.addItem');

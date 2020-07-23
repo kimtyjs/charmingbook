@@ -35,7 +35,7 @@
             </div>
         </div>
     </section>
-    <section class="product spad">
+    <srection class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-5">
@@ -109,5 +109,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </srection>
 @endsection
