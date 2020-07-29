@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,10 @@ class ProductController extends Controller
     }
 
     public function index() {
+
+        if(session('success_message')) {
+            Alert::success('Success!', session('success_message'));
+        }
 
         $products = Product::all();
         return view('pages.dashboard.product.productList', compact('products'));
@@ -60,7 +65,7 @@ class ProductController extends Controller
         }
 
         Product::create($formInput)->categories()->attach($category_id);
-        return redirect()->back()->with('success_message', 'Product has been added');
+        return redirect()->route('product.index')->withSuccessMessage('Product has been added.');
 
     }
 

@@ -13,16 +13,16 @@
             @slot('title')
                 <h1 class="dash-title">Product Listing</h1>
             @endslot
-                @if(session()->has('success_message'))
-                    <div class="col-xl-12">
-                        <div class="alert alert-success text-center alert-dismissible fade show" role="alert">
-                            {{ session()->get('success_message') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                @endif
+{{--                @if(session()->has('success_message'))--}}
+{{--                    <div class="col-xl-12">--}}
+{{--                        <div class="alert alert-success text-center alert-dismissible fade show" role="alert">--}}
+{{--                            {{ session()->get('success_message') }}--}}
+{{--                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">--}}
+{{--                                <span aria-hidden="true">&times;</span>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
             <div class="col-lg-12">
                 <div class="card easion-card">
                     <div class="card-header">

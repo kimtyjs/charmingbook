@@ -28,15 +28,15 @@
                                 <div class="col-lg-4 col-md-5">
                                     <div class="filter__sort">
                                         <span>Sort By</span>
-                                        <select>
-                                            <option value="0">Default</option>
-                                            <option value="0">Default</option>
+                                        <select id="select_query">
+                                            <option value="1" ref="https://www.google.com">Default</option>
+                                            <option value="2" ref="https://www.facebook.com">Price</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4">
                                     <div class="filter__found">
-                                        <h6><span>16</span> Products found</h6>
+                                        <h6><span>{{ $items->count() }}</span> Product(s) found</h6>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-3">
@@ -80,3 +80,11 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        document.getElementById('select_query').onchange = function () {
+            window.location.href = this.children[this.selectedIndex].getAttribute('ref');
+        }
+    </script>
+@endpush
