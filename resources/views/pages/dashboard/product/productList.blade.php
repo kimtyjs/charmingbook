@@ -1,5 +1,5 @@
 @extends('layouts.backend')
-@section('title', 'Dashboard | User Management')
+@section('title', 'Dashboard | Product')
 
 @push('styles')
     <style>
@@ -26,10 +26,31 @@
             <div class="col-lg-12">
                 <div class="card easion-card">
                     <div class="card-header">
-                        <div class="easion-card-icon">
-                            <i class="fas fa-table"></i>
+                        <div class="w-full">
+                            <div class="row align-items-center">
+                                <div class="col-md-10 fs-0">
+                                    <div class="easion-card-icon d-inline-block fs-16">
+                                        <i class="fas fa-table"></i>
+                                    </div>
+                                    <div class="easion-card-title d-inline-block fs-16">Product table</div>
+                                </div>
+                                <div class="col-md-2">
+                                   <div class="d-flex justify-content-end">
+                                       <div class="btn-group dropleft">
+                                           <button class="btn btn-secondary btn-sm dropdown-toggle w-100" id="dropdownMenu1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                               View
+                                           </button>
+                                           <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                               <a class="dropdown-item" href="{{route('product.index')}}">All</a>
+                                               @foreach($categories as $category)
+                                                   <a class="dropdown-item" href="{{ route('product.index', ['view_by' => $category->slug]) }}">{{ $category->name }}</a>
+                                               @endforeach
+                                           </div>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="easion-card-title">Product table</div>
                     </div>
                     <div class="card-body ">
                         <table class="table table-in-card">
@@ -81,8 +102,22 @@
                             </tbody>
                         </table>
                     </div>
+                    @if($products->hasPages())
+                        <div class="card-footer p-l-32">
+                            {{ $products->appends(request()->input())->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     @endcomponent
 @endsection
+
+@push('scripts')
+    <script>
+        $(".dropdown-menu a").click(function(){
+            $(this).parents(".btn-group").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+            $(this).parents(".btn-group").find('.btn').val($(this).data('value'));
+        });
+    </script>
+@endpush

@@ -29,8 +29,9 @@
                                     <div class="filter__sort">
                                         <span>Sort By</span>
                                         <select id="select_query">
-                                            <option value="1" ref="https://www.google.com">Default</option>
-                                            <option value="2" ref="https://www.facebook.com">Price</option>
+                                            <option value="0" ref="{{ route('product.search',['query' => request()->input('query'), 'page' => $items->currentPage()]) }}">Default</option>
+                                            <option value="1" ref="{{ route('product.search',['query' => request()->input('query'), 'sort' => 'low_to_high', 'page' => $items->currentPage()]) }}">Price: low to high</option>
+                                            <option value="2" ref="{{ route('product.search',['query' => request()->input('query'), 'sort' => 'high_to_low', 'page' => $items->currentPage()]) }}">Price: high to low</option>
                                         </select>
                                     </div>
                                 </div>
@@ -70,6 +71,7 @@
                                 </div>
                             @endforeach
                         </div>
+                        {{ $items->appends(request()->input())->links() }}
                     </div>
                 </div>
                 @else
