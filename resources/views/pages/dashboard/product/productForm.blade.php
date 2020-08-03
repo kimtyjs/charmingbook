@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="form-group col-md-12{{$errors->has('description')?' has-error':''}}">
                                     <label for="inputDesc">Description</label>
-                                    <textarea class="form-control" id="inputDesc" rows="5" name="description"></textarea>
+                                    <textarea class="description form-control" id="inputDesc" rows="5" name="description"></textarea>
                                     <span class="text-danger">{{$errors->first('description')}}</span>
                                 </div>
                             </div>
@@ -103,4 +103,12 @@
         </div>
     @endcomponent
 @endsection
+@push('scripts')
+    <script src="{{asset('js/tinymce.min.js')}}"></script>
+    <script>
+        tinymce.init({
+            selector:'textarea.description',
+        });
+    </script>
+@endpush
 

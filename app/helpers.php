@@ -2,6 +2,7 @@
 
 use Gloudemans\Shoppingcart\Facades\Cart;
 
+
 function presentPrice($price) {
 
     $fmt = new NumberFormatter( 'Cambodia', NumberFormatter::CURRENCY );
