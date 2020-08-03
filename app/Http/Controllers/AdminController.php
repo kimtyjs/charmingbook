@@ -61,4 +61,5 @@ class AdminController extends Controller
         return $admin;
 
     }
+
 }

@@ -31,6 +31,12 @@
             color: #fa755a;
         }
 
+        .remove-coupon {
+            display: inline-block;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
     </style>
 @endpush
 
@@ -58,6 +64,35 @@
     </section>
     <section class="checkout spad">
         <div class="container">
+            <div class="row justify-content-center">
+                @if(!session()->has('coupon'))
+                    <div class="col-lg-7 col-md-5">
+                        <div class="shoping__continue">
+                            <div class="shoping__discount">
+                                <h5>Discount Codes</h5>
+                                <form action="{{route('coupon.store')}}" method="post">
+                                    {{ csrf_field() }}
+                                    <input type="text" name="coupon_code" id="coupon_code" placeholder="Enter your coupon code">
+                                    <button type="submit" class="site-btn">APPLY COUPON</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(session()->has('coupon'))
+                    <div class="col-lg-5 col-md-7 d-flex align-items-end">
+                        <h5>Discount Removing</h5>
+                        <span>Want to remove the Coupon? Price of prodcut will be not affected</span>
+                        <div class="remove-coupon">
+                            <form action="{{route('coupon.destroy')}}" method="POST">
+                                {{csrf_field()}}
+                                {{method_field('delete')}}
+                                <button class="btn btn-secondary btn-sm" type="submit">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     @if (session()->has('success_message'))
@@ -80,118 +115,132 @@
                     @endif
                 </div>
             </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-lg-12">--}}
+{{--                    <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code--}}
+{{--                    </h6>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="row">
-                <div class="col-lg-12">
-                    <h6><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code
-                    </h6>
-                </div>
-            </div>
-            <div class="checkout__form">
-                <h4>Billing Details</h4>
-                <form action="{{route('checkout.store')}}" method="POST" id="payment-form">
-                    @csrf
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6">
+                <div class="col-sm-12">
+                    <div class="checkout__form">
+                        <h4>Billing Details</h4>
+                        <form action="{{route('checkout.store')}}" method="POST" id="payment-form">
+                            @csrf
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>UserName<span>*</span></p>
-                                        <input type="text" name="name" id="name" value="{{old('name')}}" required>
+                                <div class="col-lg-7 col-md-5">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>UserName<span>*</span></p>
+                                                <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" readonly required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Email<span>*</span></p>
+                                                <input type="email" name="email" id="email" value="{{ Auth::user()->email }}" readonly required>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="email" name="email" id="email" value="{{old('email')}}" required>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Country<span>*</span></p>
+                                                <input type="text" name="country" id="country" value="{{old('country')}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>City/State<span>*</span></p>
+                                                <input type="text" name="city" id="city" value="{{old('city')}}" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
                                     <div class="checkout__input">
-                                        <p>Country<span>*</span></p>
-                                        <input type="text" name="country" id="country" value="{{old('country')}}" required>
+                                        <p>Address<span>*</span></p>
+                                        <input type="text" name="address" id="address" value="{{old('address')}}" class="checkout__input__add" required>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>City/State<span>*</span></p>
-                                        <input type="text" name="city" id="city" value="{{old('city')}}" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" name="address" id="address" value="{{old('address')}}" class="checkout__input__add" required>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Postcode / ZIP<span>*</span></p>
+                                                <input type="text" name="postalcode" id="postalcode" value="{{old('postalcode')}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Phone Number<span>*</span></p>
+                                                <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber')}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <h4>Payment Details</h4>
                                     <div class="checkout__input">
-                                        <p>Postcode / ZIP<span>*</span></p>
-                                        <input type="text" name="postalcode" id="postalcode" value="{{old('postalcode')}}" required>
+                                        <p>Name on card<span>*</span></p>
+                                        <input type="text" name="name_on_card" id="name_on_card" value="" class="checkout__input__add">
+                                    </div>
+                                    <div class="checkout__input">
+                                        <label for="card-element" class="m-b-20">Credit card or Debit Card</label>
+                                        <div id="card-element"></div>
+                                        <div id="card-errors" role="alert"></div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone Number<span>*</span></p>
-                                        <input type="text" name="phonenumber" id="phonenumber" value="{{old('phonenumber')}}" required>
+                                <div class="col-lg-5 col-md-7">
+                                    <div class="checkout__order">
+                                        <h4>Your Order</h4>
+                                        <div class="checkout__order__products">Products <span>Total</span></div>
+                                        <ul>
+                                            @foreach(Cart::content() as $item)
+                                                <li>
+                                                    {{ $item->name }} <span> {{ $item->qty }} item(s)</span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <div class="checkout__order__subtotal">Subtotal
+                                            <span>{{ presentPrice($subtotal) }}</span>
+                                        </div>
+                                        @if(session()->has('coupon'))
+                                            <div class="checkout__order__discount">
+                                                Discount
+                                                <span>{{ presentPrice($discount) }}</span>
+                                            </div>
+                                            <hr>
+                                            <div class="checkout__order__discount">
+                                                NewSubtotal
+                                                <span>{{ presentPrice($newSubtotal) }}</span>
+                                            </div>
+                                            <hr>
+                                        @endif
+                                        <div class="checkout__order__discount">
+                                            Tax(13%) <span>{{ presentPrice($newTax) }}</span>
+                                        </div>
+                                        <div class="checkout__order__total">
+                                            Total<span>{{ presentPrice($newTotal) }}</span>
+                                        </div>
+                                        <div class="checkout__input__checkbox">
+                                            <label for="payment">
+                                                Check Payment
+                                                <input type="checkbox" id="payment">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="checkout__input__checkbox">
+                                            <label for="paypal">
+                                                Paypal
+                                                <input type="checkbox" id="paypal">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <button type="submit" id="complete-order" class="site-btn">ORDER NOW</button>
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
-                            <h4>Payment Details</h4>
-                            <div class="checkout__input">
-                                <p>Name on card<span>*</span></p>
-                                <input type="text" name="name_on_card" id="name_on_card" value="" class="checkout__input__add">
-                            </div>
-                            <div class="checkout__input">
-                                <label for="card-element" class="m-b-20">Credit card or Debit Card</label>
-                                <div id="card-element"></div>
-                                <div id="card-errors" role="alert"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="checkout__order">
-                                <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
-                                <ul>
-                                    @foreach(Cart::content() as $item)
-                                        <li>
-                                            {{ $item->name }} <span> {{ $item->qty }} item(s)</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                                <div class="checkout__order__subtotal">Subtotal <span>{{ Cart::subtotal() }}</span></div>
-                                <div class="checkout__order__total">Total <span>{{ Cart::total() }}</span></div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="acc-or">
-                                        Create an account?
-                                        <input type="checkbox" id="acc-or">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua.</p>
-                                <div class="checkout__input__checkbox">
-                                    <label for="payment">
-                                        Check Payment
-                                        <input type="checkbox" id="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="paypal">
-                                        Paypal
-                                        <input type="checkbox" id="paypal">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <button type="submit" id="complete-order" class="site-btn">ORDER NOW</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </section>

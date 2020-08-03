@@ -7,6 +7,7 @@ use App\Product;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 
@@ -19,8 +20,20 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $products = Product::take(12)->paginate(6)->OnEachSide(3);
+        $paginatedNumPerPage = 6;
         $categories = Category::getParentCategory();
+        $products = DB::table('products');
+
+        //set condition to query
+        if(request()->sort === 'low_to_high') {
+            $products = $products->orderBy('price')->paginate($paginatedNumPerPage);
+            $products->withPath('shop?sort=low_to_high');
+        } elseif (request()->sort === 'high_to_low') {
+            $products = $products->orderBy('price', 'desc')->paginate($paginatedNumPerPage);
+            $products->withPath('shop?sort=high_to_low');
+        } else {
+            $products =DB::table('products')->paginate($paginatedNumPerPage);
+        }
 
         return view('pages.shop')->with([
             'products' => $products,
@@ -45,20 +58,33 @@ class ShopController extends Controller
 
     public function shopByCategory($categoryId, $categorySlug) {
 
-        if(request()->categorySlug) {
-            $products = Product::with('categories')->whereHas('categories', function($query) {
-                $query->where('slug', request()->categorySlug);
-            })->paginate(6);
+        $paginated = 6;
+        $secondCategories = Category::getDescendants(Category::find($categoryId));
 
+        if(request()->categorySlug) {
+            $products =  $this->queryItems(request()->categorySlug)->paginate($paginated);
         }
 
-        $secondCategories = Category::getDescendants(Category::find($categoryId));
+        if(request()->sort === 'low_to_high') {
+            $products = $this->queryItems(request()->categorySlug)->orderBy('price')->paginate($paginated);
+        }
+
+        if(request()->sort === 'high_to_low') {
+            $products = $this->queryItems(request()->categorySlug)->orderBy('price', 'desc')->paginate($paginated);
+        }
+
         return view('pages.shopByCategory')->with([
                 'secondCategories' => $secondCategories,
                 'products' => $products
             ]
         );
 
+    }
+
+    private function queryItems($slug) {
+        return Product::with('categories')->whereHas('categories', function($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
     }
 
     /**
@@ -90,7 +116,11 @@ class ShopController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        return view('pages.product_detail', compact('product'));
+
+        return view('pages.product_detail')->with([
+            'product' => $product,
+            'stockLevel' => getStockLevel($product->quantity)
+        ]);
     }
 
     /**

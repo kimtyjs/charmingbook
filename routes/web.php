@@ -11,11 +11,12 @@ Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 Route::resource('category', 'CategoryController');
 
-Route::get('/shop','ShopController@index')->name('shop.index');
+Route::get('/shop/','ShopController@index')->name('shop.index');
 Route::get('shop/{product}','ShopController@show')->name('shop.show');
 Route::get('/shop/category/{catId}/{catSlug}','Shopcontroller@shopFeatured')->name('shop.shopFeatured');
 Route::get('/shop/category/sub-category/{categoryId}/{categorySlug}', 'ShopController@shopByCategory')->name('shop.shopByCategory');
 
+Route::get('/find/product', 'SearchController@search')->name('product.search');
 
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::get('/cart/addItem/{id}', 'CartController@addItem')->name('cart.addItem');
@@ -24,6 +25,9 @@ Route::put('cart/update/{id}', 'cartController@update')->name('cart.update');
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');
+
+Route::post('/coupon', 'CouponController@store')->name('coupon.store');
+Route::delete('/coupon', 'CouponController@destroy')->name('coupon.destroy');
 
 Route::get('/confirmation', 'ConfirmationController@index')->name('confirmation.index');
 
@@ -50,7 +54,7 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/category/list', 'CategoryController@categoryList')->name('category.categoryList');
         Route::get('/category/form', 'CategoryController@categoryForm')->name('category.categoryForm');
-        Route::post('/category/form', 'CategoryController@categoryFormAdding')->name('category.categoryFormAdding');
+        Route::post('/category/form', 'CategoryController@store')->name('category.store');
         Route::get('/product/form', 'ProductController@returnProductForm')->name('product.returnProductForm');
         Route::post('/product/form', 'ProductController@store')->name('product.store');
         Route::get('/product/list', 'ProductController@index')->name('product.index');
@@ -58,10 +62,11 @@ Route::prefix('admin')->group(function () {
         Route::patch('/product/update/{product}', 'ProductController@edit')->name('product.update');
         Route::delete('/product/destroy/{product}', 'ProductController@deleteProduct')->name('product.destroy');
         Route::get('/user/list', 'UserController@index')->name('user.index');
+        Route::get('/user/check/detail/{id}/{name}', 'UserController@checkUserDetail')->name('user.checkProfile');
+        Route::get('/user/check/detail/{id}/{name}/order', 'UserController@checkOrderHistory')->name('user.ordering');
+        Route::get('/user/check/detail/{id}/{name}/order/invoice/{array}', 'UserController@getInvoice')->name('user.invoice');
 
     });
-
-
 
 
 

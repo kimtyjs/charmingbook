@@ -21,10 +21,17 @@ class CartController extends Controller
     public function index() {
 
         $cartItems = Cart::content();
+        $subtotal = Cart::subtotal();
+        $tax = Cart::tax();
+        $total = Cart::total();
 
-        return view('pages.shopping_cart', compact('cartItems'));
+        return view('pages.shopping_cart')->with([
+            'cartItems' => $cartItems,
+            'subtotal' => $subtotal,
+            'tax' => $tax,
+            'total' => $total
+        ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +69,10 @@ class CartController extends Controller
             'name' => $product->name,
             'qty' => 1,
             'price' => $product->price,
-            'options' => ['totalPriceForEachProduct' => $product->price * 1]
+            'options' => [
+                'totalPriceForEachProduct' => $product->price * 1,
+                'productImage' => $product->image
+            ]
         ]);
         return redirect()->route('cart.index')->with('success_message', 'Item was added to your cart');
 
@@ -110,7 +120,7 @@ class CartController extends Controller
 
         Cart::update(
             $id,
-            ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty]]
+            ['qty' => $qty, 'options' => ['totalPriceForEachProduct' => $product->price * $qty, 'productImage' => $product->image]]
 
         );
         return back()->with('success_message', 'Quantity of product was changed in your cart');

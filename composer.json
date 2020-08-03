@@ -16,7 +16,8 @@
         "laravel/tinker": "^1.0",
         "stripe/stripe-php": "^7.37",
         "cartalyst/stripe-laravel": "^9.0",
-      "ext-http": "*"
+        "ext-http": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

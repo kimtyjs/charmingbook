@@ -18,13 +18,13 @@ class CreateProductsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('details')->nullable();
-            $table->integer('price');
+            $table->decimal('price', 8, 2)->default(0);
             $table->text('description');
             $table->boolean('featured')->default(false);
             $table->string('codes')->unique();
             $table->string('image')->nullable();
             $table->text('images')->nullable();
-            $table->unsignedInteger('quantity')->default(10);
+            $table->unsignedInteger('quantity')->default(0);
             $table->bigInteger('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

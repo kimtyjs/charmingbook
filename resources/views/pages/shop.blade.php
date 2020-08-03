@@ -62,15 +62,16 @@
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
                                     <span>Sort By</span>
-                                    <select>
-                                        <option value="0">Default</option>
-                                        <option value="0">Default</option>
+                                    <select id="select_query">
+                                        <option value="0" ref="{{route('shop.index', ['page' => $products->currentPage()])}}">Default</option>
+                                        <option value="1" ref="{{route('shop.index', ['sort' => 'low_to_high', 'page' => $products->currentPage()])}}">Price:low to high</option>
+                                        <option value="2" ref="{{route('shop.index', ['sort' => 'high_to_low', 'page' => $products->currentPage()]) }}">Price:high to low</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6><span>{{ $products->count() }}</span> Product(s) This Page found</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -98,7 +99,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a href="{{route('shop.show', $product->slug)}}">{{ $product->name }}</a></h6>
-                                        <h5>{{ $product->presentPrice() }}</h5>
+                                        <h5>{{ presentPrice($product->price) }}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -111,3 +112,11 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        document.getElementById('select_query').onchange = function () {
+            window.location.href = this.children[this.selectedIndex].getAttribute('ref');
+        }
+    </script>
+@endpush

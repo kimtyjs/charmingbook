@@ -19,6 +19,7 @@
             display: none;
         }
 
+
     </style>
 @endpush
 
@@ -73,7 +74,7 @@
                                         </h4>
                                         <hr>
                                         <div class="details{{$errors->has('description')?' has-error':''}}">
-                                            <textarea class="form-control" id="description" name="description" rows="5">
+                                            <textarea class="description form-control" id="description" name="description" rows="5">
                                                 {{ $product->description }}
                                             </textarea>
                                             <span class="text-danger">{{$errors->first('description')}}</span>
@@ -146,6 +147,12 @@
 
             readURL(this);
 
+        });
+    </script>
+    <script src="{{asset('js/tinymce.min.js')}}"></script>
+    <script>
+        tinymce.init({
+            selector:'textarea.description',
         });
     </script>
 @endpush

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
-use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -20,15 +20,35 @@ class ProductController extends Controller
 
     public function index() {
 
-        $products = Product::all();
-        return view('pages.dashboard.productList', compact('products'));
+        if(session('success_message')) {
+            Alert::success('Success!', session('success_message'));
+        }
+        //print cat with no parent
+        $categories = DB::table('categories')
+            ->where('category_id', '!=', null)->get();
+
+        //returning the slug of category
+        $categoryId = DB::table('categories')->where('slug', request()->view_by)->value('id');
+
+        //let there be the place for checking condition for querying product according the 'category'
+        if(request()->view_by) {
+            //query item by cat selecting
+            $products = Product::with('categories')->where('category_id', $categoryId)->orderBy('price')->paginate(6);
+        } else {
+            $products = Product::with('categories')->orderBy('price')->paginate(6);
+        }
+
+        return view('pages.dashboard.product.productList')->with([
+            'products' => $products,
+            'categories' => $categories
+        ]);
 
     }
 
     public function returnProductForm() {
 
         $categories = Category::pluck('name', 'id');
-        return view('pages.dashboard.productForm', compact('categories'));
+        return view('pages.dashboard.product.productForm', compact('categories'));
     }
 
     public function store(Request $request) {
@@ -37,9 +57,9 @@ class ProductController extends Controller
             'name' => ['required', 'string', 'min:5', 'unique:products'],
             'slug' => ['required', 'string', 'min:5', 'unique:products'],
             'codes' => ['required', 'string', 'min:5', 'unique:products'],
-            'details' => ['required', 'string', 'min:7'],
-            'price' => ['required'],
-            'quantity' => ['required'],
+            'details' => ['required', 'string', 'min:7', 'max:100'],
+            'price' => ['required', 'numeric', 'min:1'],
+            'quantity' => ['required', 'numeric', 'min:0'],
             'image' => ['required', 'mimes:jpeg,jpg,png','max:10000'],
             'description' => ['required', 'max:5000']
         ]);
@@ -61,7 +81,7 @@ class ProductController extends Controller
         }
 
         Product::create($formInput)->categories()->attach($category_id);
-        return redirect()->back()->with('success_message', 'Product has been added');
+        return redirect()->route('product.index')->withSuccessMessage('Product has been added.');
 
     }
 
@@ -69,7 +89,7 @@ class ProductController extends Controller
 
         $product = Product::where('slug', $productSlug)->firstOrFail();
 
-        return view('pages.dashboard.productEdit', compact('product'));
+        return view('pages.dashboard.product.productEdit', compact('product'));
 
     }
 
