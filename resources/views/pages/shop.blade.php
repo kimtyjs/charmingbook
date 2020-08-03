@@ -35,7 +35,7 @@
             </div>
         </div>
     </section>
-    <srection class="product spad">
+    <section class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-5">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-    </srection>
+    </section>
 @endsection
 
 @push('scripts')

@@ -38,7 +38,6 @@ class ProductController extends Controller
             $products = Product::with('categories')->orderBy('price')->paginate(6);
         }
 
-
         return view('pages.dashboard.product.productList')->with([
             'products' => $products,
             'categories' => $categories

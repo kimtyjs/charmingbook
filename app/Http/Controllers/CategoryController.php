@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller {
 
@@ -26,22 +27,34 @@ class CategoryController extends Controller {
         return view('pages.dashboard.categoryForm', compact('categories'));
     }
 
-    public function categoryFormAdding(Request $request) {
+    public function store(Request $request) {
 
-        request()->validate([
-            'name' => 'required',
-            'slug' => 'required',
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'unique:categories', 'min:5', 'string', 'alpha'],
+            'slug' => ['required', 'string', 'min:5', 'unique:categories']
         ]);
 
-        //$inputId = $request->get('inputCat');
+        //get the input-field as the 'id' for selecting category, parent === null
+        $categoryId = $request->input('inputCat');
 
-        //find the parent Category via Id
-        $parentCategory = Category::findOrFail($request->category_id);
+        if($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        //save the new Sub-category into relationship
+        if($categoryId  === "null") {  //we insert the root parent category
+           Category::create($request->all());
+        }
+
+        //we insert the sub category into parent root category
+        $parentCategory = Category::findOrFail((int)$categoryId);
+
+        //store the children to parent root category
         $parentCategory->parent()->save(Category::create($request->all()));
 
         return back()->with('success_message', 'Category has been added');
+
     }
 
 }
