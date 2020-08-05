@@ -30,7 +30,7 @@ class ProductController extends Controller
         //returning the slug of category
         $categoryId = DB::table('categories')->where('slug', request()->view_by)->value('id');
 
-        //let there be the place for checking condition for querying product according the 'category'
+        //let there be the place for checking condition for querying product according to the 'category'
         if(request()->view_by) {
             //query item by cat selecting
             $products = Product::with('categories')->where('category_id', $categoryId)->orderBy('price')->paginate(6);

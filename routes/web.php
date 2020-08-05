@@ -9,6 +9,12 @@ Route::get('/notfound', function () {
 })->name('not.found');
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
+//user profile
+Route::get('/user/my_profile/{id}/{name}', 'ProfileUserController@profilePage')->name('user.profile');
+Route::patch('/user/my_profile/{avatarImg}/img', 'ProfileUserController@updateAvatarImg')->name('user.profile.img');
+Route::patch('/user/my_profile/{userInfo}/info', 'ProfileUserController@updateUserInfo')->name('user.profile.info');
+Route::patch('/user/my_profile/{userPassword}/password', 'ProfileUserController@updateUserPassword')->name('user.profile.password');
+
 Route::resource('category', 'CategoryController');
 
 Route::get('/shop/','ShopController@index')->name('shop.index');

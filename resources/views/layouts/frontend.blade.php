@@ -51,6 +51,7 @@
         <script src="{{asset('js/mixitup.min.js')}}"></script>
         <script src="{{asset('js/owl.carousel.min.js')}}"></script>
         <script src="{{asset('js/main.js')}}"></script>
+        @include('sweetalert::alert');
         @stack('scripts')
     </body>
 
