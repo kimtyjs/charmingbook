@@ -23,7 +23,6 @@ class UserTableSeeder extends Seeder
             'name' => 'denny',
             'email' => 'denny@gmail.com',
             'password' => Hash::make('123456789'),
-            'identifying_id' => Uuid::uuid4()->toString()
         ]);
 
         //attach role and permission to the user

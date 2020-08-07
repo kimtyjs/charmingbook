@@ -21,6 +21,7 @@ class ProfileUserController extends Controller {
 
     public function profilePage() {
 
+
         //flash message for success message popping up
         if(session('success')) {
             Alert::success('Success!', session('success'));
@@ -34,7 +35,6 @@ class ProfileUserController extends Controller {
         //getting authenticated user
         $user = auth()->user();
         $orders = auth()->user()->orders;
-
 
         return view('pages.profileUser')->with([
             'user' => $user,
@@ -78,7 +78,7 @@ class ProfileUserController extends Controller {
         }
 
         return redirect()
-            ->route('user.profile', ['id' => auth()->user()->identifying_id, 'name' => auth()->user()->name])
+            ->route('user.profile', ['id' => auth()->user()->id, 'name' => auth()->user()->name])
             ->withSuccess('profile Image has been updated.');
 
     }
@@ -116,7 +116,7 @@ class ProfileUserController extends Controller {
 
         ]);
 
-        return redirect('/user/my_profile/'.auth()->user()->identifying_id.'/'.auth()->user()->name)
+        return redirect('/user/my_profile/'.auth()->user()->id.'/'.auth()->user()->name)
             ->with('success', 'Profile Info has been updated');
 
     }

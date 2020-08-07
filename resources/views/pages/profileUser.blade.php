@@ -153,96 +153,100 @@
                                 <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
                                     <div class="card">
                                        <div class="card-body">
-                                           <table class="table">
-                                               <thead class="thead-light">
-                                               <tr>
-                                                   <th scope="col">#Order</th>
-                                                   <th scope="col">Ordered Date</th>
-                                                   <th scope="col">Customer</th>
-                                                   <th scope="col">Discount</th>
-                                                   <th scope="col">Payment</th>
-                                                   <th scope="col">Detail</th>
-                                               </tr>
-                                               </thead>
-                                               <tbody>
-                                               @foreach($orders as $order)
+                                           @if($orders->count() !== 0)
+                                               <table class="table">
+                                                   <thead class="thead-light">
                                                    <tr>
-                                                       <th scope="row">{{$order->id}}</th>
-                                                       <td>{{$order->created_at}}</td>
-                                                       <td>{{$order->billing_name}}</td>
-                                                       <td>
-                                                           @if($order->billing_discount === 0)
-                                                               Yes
+                                                       <th scope="col">#Order</th>
+                                                       <th scope="col">Ordered Date</th>
+                                                       <th scope="col">Customer</th>
+                                                       <th scope="col">Discount</th>
+                                                       <th scope="col">Payment</th>
+                                                       <th scope="col">Detail</th>
+                                                   </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                   @foreach($orders as $order)
+                                                       <tr>
+                                                           <th scope="row">{{$order->id}}</th>
+                                                           <td>{{$order->created_at}}</td>
+                                                           <td>{{$order->billing_name}}</td>
+                                                           <td>
+                                                               @if($order->billing_discount === 0)
+                                                                   Yes
                                                                @else
-                                                               No
-                                                           @endif
-                                                       </td>
-                                                       <td>{{ $order->payment_gateway }}</td>
-                                                       <td>
-                                                           <a href="#" style="color: #28a745;" data-toggle="modal" data-target="#exampleModalCenter{{$order->id}}">
-                                                               <i class="fas fa-info-circle"></i>
-                                                           </a>
-                                                           <div class="modal fade bd-example-modal-lg" id="exampleModalCenter{{$order->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                                               <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                                   <div class="modal-content">
-                                                                       <div class="modal-header">
-                                                                           <h5 class="modal-title" id="exampleModalLongTitle">Ordered Products</h5>
-                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                               <span aria-hidden="true">&times;</span>
-                                                                           </button>
-                                                                       </div>
-                                                                       <div class="modal-body">
-                                                                           <table class="table table-striped">
-                                                                               <thead>
-                                                                               <tr>
-                                                                                   <th scope="col">Name</th>
-                                                                                   <th scope="col">Image</th>
-                                                                                   <th scope="col">Price</th>
-                                                                                   <th scope="col">Quantity</th>
-                                                                                   <th scope="col">Total</th>
-                                                                               </tr>
-                                                                               </thead>
-                                                                               <tbody>
-                                                                               @foreach($order->products as $product)
+                                                                   No
+                                                               @endif
+                                                           </td>
+                                                           <td>{{ $order->payment_gateway }}</td>
+                                                           <td>
+                                                               <a href="#" style="color: #28a745;" data-toggle="modal" data-target="#exampleModalCenter{{$order->id}}">
+                                                                   <i class="fas fa-info-circle"></i>
+                                                               </a>
+                                                               <div class="modal fade bd-example-modal-lg" id="exampleModalCenter{{$order->id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                                       <div class="modal-content">
+                                                                           <div class="modal-header">
+                                                                               <h5 class="modal-title" id="exampleModalLongTitle">Ordered Products</h5>
+                                                                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                   <span aria-hidden="true">&times;</span>
+                                                                               </button>
+                                                                           </div>
+                                                                           <div class="modal-body">
+                                                                               <table class="table table-striped">
+                                                                                   <thead>
                                                                                    <tr>
-                                                                                       <td>{{ $product->name }}</td>
-                                                                                       <td><img src="{{url('img/product', $product->image)}}" alt="{{$product->image}}" width="60" height="70"></td>
-                                                                                       <td>{{ presentPrice($product->price) }}</td>
-                                                                                       <td>{{ $product->pivot->quantity }}</td>
-                                                                                       <td>{{ presentPrice($product->price * $product->pivot->quantity) }}</td>
+                                                                                       <th scope="col">Name</th>
+                                                                                       <th scope="col">Image</th>
+                                                                                       <th scope="col">Price</th>
+                                                                                       <th scope="col">Quantity</th>
+                                                                                       <th scope="col">Total</th>
                                                                                    </tr>
-                                                                               @endforeach
-                                                                               </tbody>
-                                                                           </table>
-                                                                           <div class="row d-flex justify-content-end m-t-30">
-                                                                               <div class="col-md-5">
-                                                                                   <div class="card">
-                                                                                       <div class="card-header text-center" style="background-color: #dee2e6;">
-                                                                                           <h5>Billing</h5>
-                                                                                       </div>
-                                                                                       <div class="card-body">
-                                                                                            <p><strong class="m-r-15">SubTotal:</strong> {{ presentPrice($order->billing_subtotal) }}</p>
-                                                                                            @if($order->shipped === 0)
-                                                                                               <p><strong class="m-r-15">Shipping:</strong> {{ presentPrice(0) }}</p>
-                                                                                           @endif
-                                                                                           <p><strong class="m-r-15">Tax(%2):</strong>{{ presentPrice($order->billing_tax) }}</p>
-                                                                                           <p><strong class="m-r-15">Total:</strong>{{ presentPrice($order->billing_total) }}</p>
+                                                                                   </thead>
+                                                                                   <tbody>
+                                                                                   @foreach($order->products as $product)
+                                                                                       <tr>
+                                                                                           <td>{{ $product->name }}</td>
+                                                                                           <td><img src="{{url('img/product', $product->image)}}" alt="{{$product->image}}" width="60" height="70"></td>
+                                                                                           <td>{{ presentPrice($product->price) }}</td>
+                                                                                           <td>{{ $product->pivot->quantity }}</td>
+                                                                                           <td>{{ presentPrice($product->price * $product->pivot->quantity) }}</td>
+                                                                                       </tr>
+                                                                                   @endforeach
+                                                                                   </tbody>
+                                                                               </table>
+                                                                               <div class="row d-flex justify-content-end m-t-30">
+                                                                                   <div class="col-md-5">
+                                                                                       <div class="card">
+                                                                                           <div class="card-header text-center" style="background-color: #dee2e6;">
+                                                                                               <h5>Billing</h5>
+                                                                                           </div>
+                                                                                           <div class="card-body">
+                                                                                               <p><strong class="m-r-15">SubTotal:</strong> {{ presentPrice($order->billing_subtotal) }}</p>
+                                                                                               @if($order->shipped === 0)
+                                                                                                   <p><strong class="m-r-15">Shipping:</strong> {{ presentPrice(0) }}</p>
+                                                                                               @endif
+                                                                                               <p><strong class="m-r-15">Tax(%2):</strong>{{ presentPrice($order->billing_tax) }}</p>
+                                                                                               <p><strong class="m-r-15">Total:</strong>{{ presentPrice($order->billing_total) }}</p>
+                                                                                           </div>
                                                                                        </div>
                                                                                    </div>
                                                                                </div>
                                                                            </div>
-                                                                       </div>
-                                                                       <div class="modal-footer">
-                                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                           <div class="modal-footer">
+                                                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                           </div>
                                                                        </div>
                                                                    </div>
                                                                </div>
-                                                           </div>
-                                                       </td>
-                                                   </tr>
-                                               @endforeach
-                                               </tbody>
-                                           </table>
+                                                           </td>
+                                                       </tr>
+                                                   @endforeach
+                                                   </tbody>
+                                               </table>
+                                               @else
+                                               <p class="text-center">Your Order is Empty</p>
+                                           @endif
                                        </div>
                                     </div>
                                 </div> <!--end My Order tab-->
@@ -251,41 +255,45 @@
                                         <div class="col-md-7">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="m-t-10 m-b-10">
-                                                        <i class="fas fa-location-arrow"></i>
-                                                        <span class="m-l-10">
+                                                    @if($orders->count() !== 0)
+                                                        <div class="m-t-10 m-b-10">
+                                                            <i class="fas fa-location-arrow"></i>
+                                                            <span class="m-l-10">
                                                             <strong>Country: </strong>
                                                             {{ $order->billing_country }}
                                                         </span>
-                                                    </div>
-                                                    <div class="m-t-10 m-b-10">
-                                                        <i class="fas fa-city"></i>
-                                                        <span class="m-l-10">
+                                                        </div>
+                                                        <div class="m-t-10 m-b-10">
+                                                            <i class="fas fa-city"></i>
+                                                            <span class="m-l-10">
                                                             <strong>City: </strong>
                                                             {{ $order->billing_city }}
                                                         </span>
-                                                    </div>
-                                                    <div class="m-t-10 m-b-10">
-                                                        <i class="fas fa-map-marker-alt"></i>
-                                                        <span class="m-l-10">
+                                                        </div>
+                                                        <div class="m-t-10 m-b-10">
+                                                            <i class="fas fa-map-marker-alt"></i>
+                                                            <span class="m-l-10">
                                                             <strong>Address: </strong>
                                                             {{ $order->billing_address }}
                                                         </span>
-                                                    </div>
-                                                    <div class="m-t-10 m-b-10">
-                                                        <i class="fas fa-mobile"></i>
-                                                        <span class="m-l-10">
+                                                        </div>
+                                                        <div class="m-t-10 m-b-10">
+                                                            <i class="fas fa-mobile"></i>
+                                                            <span class="m-l-10">
                                                             <strong>PhoneNumber: </strong>
                                                             {{ $order->billing_phone }}
                                                         </span>
-                                                    </div>
-                                                    <div class="m-t-10 m-b-10">
-                                                        <i class="fas fa-boxes"></i>
-                                                        <span class="m-l-10">
+                                                        </div>
+                                                        <div class="m-t-10 m-b-10">
+                                                            <i class="fas fa-boxes"></i>
+                                                            <span class="m-l-10">
                                                             <strong>PostalCode: </strong>
                                                             {{ $order->billing_postal_code }}
                                                         </span>
-                                                    </div>
+                                                        </div>
+                                                        @else
+                                                        <p class="text-center">Your Order is Empty</p>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

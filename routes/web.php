@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
-Route::get('/notfound', function () {
-    return view('pages.pagenotfound');
-})->name('not.found');
+
+//notfound page
+Route::get('/notfound', 'NotFoundPageController@index')->name('not.found');
+
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 //user profile
@@ -42,8 +43,8 @@ Route::get('/thank', 'ConfirmationController@index')->name('confirmation.index')
 
 
 Route::prefix('admin')->group(function() {
-    Route::get('login', 'Auth\AdminLoginController@returnAdminLoginPage')->name('admin.login');
-    Route::post('login', 'Auth\AdminLoginController@postLogin')->name('admin.auth.login');
+    Route::get('/login', 'Auth\AdminLoginController@returnAdminLoginPage')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@postLogin')->name('admin.auth.login');
 });
 
 
