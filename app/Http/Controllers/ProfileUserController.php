@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -30,14 +31,15 @@ class ProfileUserController extends Controller {
             Alert::error('Error!', session('error'));
         }
 
-        //getting data from authenticated user
-        $user =  auth()->user();
+        //getting authenticated user
+        $user = auth()->user();
+        $orders = auth()->user()->orders;
 
-        //getting all the order of the authenticated user
-        $orders = $user->orders;
-        //dd($orders);
 
-        return view('pages.profileUser')->with(['user' => $user]);
+        return view('pages.profileUser')->with([
+            'user' => $user,
+            'orders' => $orders,
+        ]);
     }
 
     public function updateAvatarImg(Request $request, $id) {
