@@ -5,6 +5,7 @@ use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Uuid;
 
 class UserTableSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class UserTableSeeder extends Seeder
         $user = User::create([
             'name' => 'denny',
             'email' => 'denny@gmail.com',
-            'password' => Hash::make('123456789')
+            'password' => Hash::make('123456789'),
         ]);
 
         //attach role and permission to the user

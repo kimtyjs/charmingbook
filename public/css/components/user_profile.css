@@ -1,0 +1,115 @@
+.card {
+
+    border-radius: 12px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+    background-color: #FFFFFF;
+    margin-bottom: 40px;
+
+}
+.card .card-body {
+
+    margin: 4px;
+
+}
+.card .card-header {
+
+    border: 0;
+    background-color: white;
+
+}
+.btn-update {
+
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+
+}
+.profile-picture {
+
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    padding: 5px 5px;
+
+}
+
+.profile-picture label {
+
+    display: block;
+    margin-bottom: 15px;
+    padding: 5px;
+
+}
+
+.profile-picture label img {
+
+    width: 200px;
+    height: 200px;
+    padding: 5px;
+    margin-top: 15px;
+
+}
+
+.profile-picture label span input {
+
+    display: none;
+}
+
+.profile-picture h5 {
+
+    font-weight: 700;
+    font-size: 1.14em;
+    line-height: 1.4em;
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+
+}
+
+.profile-picture p.description{
+
+    font-size: 1.14em;
+    color: #A9A9A9;
+    padding: 5px;
+    margin-bottom: 20px;
+
+}
+
+.btn {
+
+    border: none;
+    border-radius: 30px;
+}
+
+.btn-secondary {
+
+    background-color: #A9A9A9;
+    color: #FFFFFF;
+
+}
+
+.btn-light {
+
+    background-color: #FFFFFF;
+
+}
+.card .card-body .form-group label {
+
+    font-weight: 600;
+    display: block;
+
+}
+
+.extra-button div h5 {
+
+    display: inline;
+    line-height: 1;
+    font-size: 14px;
+    color: #767676;
+    font-weight: 500;
+    background-color: #fff;
+    padding: 0 8px 0 7px;
+
+}

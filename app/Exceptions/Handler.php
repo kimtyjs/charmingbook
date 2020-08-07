@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        $guard = Arr::get($exception->guards(), 0);
+        /*$guard = Arr::get($exception->guards(), 0);
 
         switch ($guard) {
 
@@ -68,9 +68,14 @@ class Handler extends ExceptionHandler
             default:
                 $login = 'login';
                 break;
+        }*/
+
+        //if user type url with admin or admin-any, will redirect to not found page
+        if ($request->is('admin') || $request->is('admin/*')) {
+            return redirect()->route('not.found');
         }
 
-        return redirect()->guest(route($login));
+        return redirect()->guest(route('login'));
 
     }
 }

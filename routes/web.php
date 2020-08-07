@@ -4,10 +4,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
-Route::get('/notfound', function () {
-    return view('pages.pagenotfound');
-})->name('not.found');
+
+//notfound page
+Route::get('/notfound', 'NotFoundPageController@index')->name('not.found');
+
 Route::get('/', 'LandingPageController@index')->name('landing-page');
+
+//user profile
+Route::get('/user/my_profile/{id}/{name}', 'ProfileUserController@profilePage')->name('user.profile');
+Route::patch('/user/my_profile/{avatarImg}/img', 'ProfileUserController@updateAvatarImg')->name('user.profile.img');
+Route::patch('/user/my_profile/{userInfo}/info', 'ProfileUserController@updateUserInfo')->name('user.profile.info');
+Route::patch('/user/my_profile/{userPassword}/password', 'ProfileUserController@updateUserPassword')->name('user.profile.password');
 
 Route::resource('category', 'CategoryController');
 
@@ -36,8 +43,8 @@ Route::get('/thank', 'ConfirmationController@index')->name('confirmation.index')
 
 
 Route::prefix('admin')->group(function() {
-    Route::get('login', 'Auth\AdminLoginController@returnAdminLoginPage')->name('admin.login');
-    Route::post('login', 'Auth\AdminLoginController@postLogin')->name('admin.auth.login');
+    Route::get('/login', 'Auth\AdminLoginController@returnAdminLoginPage')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@postLogin')->name('admin.auth.login');
 });
 
 

@@ -1,9 +1,10 @@
-<ul>
-    <li>
-        @if(Auth::check())
-            <i class="fa fa-user"></i> {{  Auth::user()->name }}
-            @else
-        @endif
-    </li>
-    <li>Free Shipping for all Order of $99</li>
-</ul>
+@if(auth()->user())
+    <ul>
+        <li>
+            <i class="fa fa-user"></i> {{  auth()->user()->name }}
+        </li>
+        <li>
+            <a href="{{route('user.profile', ['id' => auth()->user()->id, 'name' => auth()->user()->name])}}">Profile</a>
+        </li>
+    </ul>
+@endif
