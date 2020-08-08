@@ -44,12 +44,25 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Exception $exception)
-    {
+    public function render($request, Exception $exception) {
+
+        if ($this->isHttpException($exception)) {
+
+            if ($exception->getStatusCode() === 404) {
+                return response()->redirectToRoute('not.found');
+            }
+
+            if ($exception->getStatusCode() === 500) {
+                return response()->redirectToRoute('not.found');
+            }
+
+        }
+
         return parent::render($request, $exception);
     }
+
 
     protected function unauthenticated($request, AuthenticationException $exception) {
 
@@ -57,20 +70,8 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        /*$guard = Arr::get($exception->guards(), 0);
-
-        switch ($guard) {
-
-            case 'admin':
-                $login = 'not.found';
-                break;
-
-            default:
-                $login = 'login';
-                break;
-        }*/
-
         //if user type url with admin or admin-any, will redirect to not found page
+        //when admin is not logged in
         if ($request->is('admin') || $request->is('admin/*')) {
             return redirect()->route('not.found');
         }

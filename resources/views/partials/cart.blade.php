@@ -1,10 +1,11 @@
 <ul>
-    <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
     <li><a href="#">
             <i class="fa fa-shopping-bag"></i>
             <span>
                 @if(Cart::instance('default')->count() > 0)
                     {{ Cart::instance('default')->count() }}
+                    @else
+                    0
                 @endif
             </span>
         </a>

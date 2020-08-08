@@ -2,7 +2,7 @@
 @section('title', 'AdminMiddleware')
 
 @section('contents')
-   @component('components.auth-admin')
+   @component('components.dashboard.auth-admin')
        @slot('title')
            Create Account
        @endslot

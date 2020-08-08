@@ -2,8 +2,8 @@
 <html lang="zxx">
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="Ogani Template">
-        <meta name="keywords" content="Ogani, unica, creative, html">
+        <meta name="description" content="E-commerce Selling Book">
+        <meta name="keywords" content="Website to collect all kind of book all over around the world">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
@@ -25,13 +25,13 @@
         <link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}" type="text/css">
         <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css">
         <link rel="stylesheet" href="{{asset('css/components/util.css')}}" type="text/css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{asset('css/font-awesome.min.css') }}" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
         @stack('styles')
     </head>
 
     <body>
         <!-- preLoader of Page -->
-        @include('partials.loader')
+        <div id="preloder"><div class="loader"></div></div>
         <!--Responsive Menu-->
         @include('partials.hamburger_menu')
         <!--Header-->

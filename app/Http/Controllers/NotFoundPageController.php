@@ -8,7 +8,7 @@ class NotFoundPageController extends Controller {
 
     public function index() {
 
-        return view('pages.pagenotfound');
+        return view('pages.error.pagenotfound');
 
     }
 

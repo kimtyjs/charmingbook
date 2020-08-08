@@ -2,7 +2,7 @@
 @section('title', 'Login')
 
 @section('contents')
-    @component('components.auth-admin')
+    @component('components.dashboard.auth-admin')
         @slot('title')
             Login Account
         @endslot

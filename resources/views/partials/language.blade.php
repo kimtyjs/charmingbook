@@ -8,7 +8,7 @@
     </ul>
 </div>
 <div class="header__top__right__auth header__top__right__language">
-    <i class="fa fa-sign-in"></i>
+    <i class="fas fa-sign-in"></i>
     <div></div>
     <div> Account </div>
     <span class="arrow_carrot-down"></span>
