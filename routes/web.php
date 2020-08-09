@@ -10,6 +10,9 @@ Route::get('/notfound', 'NotFoundPageController@index')->name('not.found');
 
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
+//wishlist
+Route::get('/wishlist', 'LandingPageController@wishlist')->name('landing-page.wishlist')->middleware('auth');
+
 //user profile
 Route::get('/user/my_profile/{id}/{name}', 'ProfileUserController@profilePage')->name('user.profile');
 Route::patch('/user/my_profile/{avatarImg}/img', 'ProfileUserController@updateAvatarImg')->name('user.profile.img');
