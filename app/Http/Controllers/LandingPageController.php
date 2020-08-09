@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Category;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class LandingPageController extends Controller {
 
     public function index() {
 
-        //query all Parent_category
         $parentCategories = Category::getParentCategory();
         $randomCategories = Category::inRandomOrder()->take(6)->get();
 
@@ -17,6 +16,15 @@ class LandingPageController extends Controller {
 
     }
 
+    public function wishlist() {
+
+        $productWishlists = DB::table('wishlists')
+            ->leftJoin('products', 'wishlists.product_id', '=', 'products.id')
+            ->get();
+
+        return view('pages.wishlist', compact('productWishlists'));
+
+    }
 
 }
 
