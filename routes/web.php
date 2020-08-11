@@ -5,21 +5,33 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+//test
+Route::get('/testing', function () {
+    return view('pages.landing_page');
+});
+
 //notfound page
 Route::get('/notfound', 'NotFoundPageController@index')->name('not.found');
 
+//homepage
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 //wishlist
 Route::get('/wishlist', 'LandingPageController@wishlist')->name('landing-page.wishlist')->middleware('auth');
 
 //user profile
-Route::get('/user/my_profile/{id}/{name}', 'ProfileUserController@profilePage')->name('user.profile');
-Route::patch('/user/my_profile/{avatarImg}/img', 'ProfileUserController@updateAvatarImg')->name('user.profile.img');
-Route::patch('/user/my_profile/{userInfo}/info', 'ProfileUserController@updateUserInfo')->name('user.profile.info');
+Route::get('/user/my_account_content/{name}', 'ProfileUserController@profileContent')->name('user.profile.content');
+Route::get('/user/my_profile/{name}/info', 'ProfileUserController@profileInfo')->name('user.profile.info');
+Route::patch('/user/my_profile/{name}/info', 'ProfileUserController@updateUserInfo')->name('user.profile.info');
+Route::get('/user/my_profile/{userPassword}/password', 'ProfileUserController@returnPasswordPage')->name('user.profile.password');
 Route::patch('/user/my_profile/{userPassword}/password', 'ProfileUserController@updateUserPassword')->name('user.profile.password');
+Route::get('/user/my_profile/{name}/order_history', 'ProfileUserController@returnOrderHistory')->name('user.profile.order');
 
-Route::resource('category', 'CategoryController');
+//cart page
+Route::get('/cart', 'CartController@index')->name('cart.index');
+Route::get('/cart/addItem/{id}', 'CartController@addItem')->name('cart.addItem');
+Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
+Route::put('cart/update/{id}', 'cartController@update')->name('cart.update');
 
 Route::get('/shop/','ShopController@index')->name('shop.index');
 Route::get('shop/{product}','ShopController@show')->name('shop.show');
@@ -27,11 +39,6 @@ Route::get('/shop/category/{catId}/{catSlug}','Shopcontroller@shopFeatured')->na
 Route::get('/shop/category/sub-category/{categoryId}/{categorySlug}', 'ShopController@shopByCategory')->name('shop.shopByCategory');
 
 Route::get('/find/product', 'SearchController@search')->name('product.search');
-
-Route::get('/cart', 'CartController@index')->name('cart.index');
-Route::get('/cart/addItem/{id}', 'CartController@addItem')->name('cart.addItem');
-Route::delete('/cart/{product}', 'CartController@destroy')->name('cart.destroy');
-Route::put('cart/update/{id}', 'cartController@update')->name('cart.update');
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
 Route::post('/checkout', 'CheckoutController@store')->name('checkout.store');

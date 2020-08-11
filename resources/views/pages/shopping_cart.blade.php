@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.front')
 @section('title', 'Shopping Cart')
 
 @push('styles')

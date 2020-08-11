@@ -19,8 +19,11 @@ class ProfileUserController extends Controller {
         $this->middleware('auth');
     }
 
-    public function profilePage() {
+    public function profileContent() {
+        return view('pages.userProfile.accountContent');
+    }
 
+    public function profileInfo() {
 
         //flash message for success message popping up
         if(session('success')) {
@@ -32,35 +35,31 @@ class ProfileUserController extends Controller {
             Alert::error('Error!', session('error'));
         }
 
-        //getting authenticated user
-        $user = auth()->user();
-        $orders = auth()->user()->orders;
-
-        return view('pages.profileUser')->with([
-            'user' => $user,
-            'orders' => $orders,
-        ]);
+        return view('pages.userProfile.accountInfo',['user' => auth()->user()]);
     }
 
-    public function updateAvatarImg(Request $request, $id) {
+    public function updateUserInfo(Request $request, $id) {
 
         $validator = Validator::make($request->all(), [
             'avatar' => ['sometimes', 'image', 'mimes:jpg,png,jpeg,gif', 'max:2048'],
+            'name' => ['sometimes', 'min:5', 'string', Rule::unique('users')->ignore($id), 'alpha', 'max:20'],
+            'email' => ['sometimes', 'min:15', 'email', 'string', Rule::unique('users')->ignore($id)],
+            'social_media_link' => ['sometimes', 'min:5', 'string', 'url', 'nullable'],
+            'career' => ['sometimes', 'string', 'min:5', 'alpha'],
+            'bio' => ['sometimes', 'string', 'max:5000']
         ]);
 
         //validator error
         if($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-
+            return back()->withError($validator->messages()->all())->withInput();
         }
+
         if($request->hasFile('avatar')) {   //false if user do not upload img
             //eliminate the old img from folder
             $imagePath = User::select('avatar')->where('id', $id)->first();
             $filePath = public_path('img/user_profile'). "/" .$imagePath->avatar;
             if(file_exists($filePath)) {
-                @unlink($filePath); //delete
+                @unlink($filePath); //delete old image
             }
 
             //storing the very new image
@@ -75,26 +74,6 @@ class ProfileUserController extends Controller {
                 'avatar' => $avatarName,
                 'updated_at' => $updated_at
             ]);
-        }
-
-        return redirect()
-            ->route('user.profile', ['id' => auth()->user()->id, 'name' => auth()->user()->name])
-            ->withSuccess('profile Image has been updated.');
-
-    }
-
-    public function updateUserInfo(Request $request, $id) {
-
-        $validator = Validator::make($request->all(), [
-            'name' => ['sometimes', 'min:5', 'string', Rule::unique('users')->ignore($id), 'alpha', 'max:20'],
-            'email' => ['sometimes', 'min:15', 'email', 'string', Rule::unique('users')->ignore($id)],
-            'social_media_link' => ['sometimes', 'min:5', 'string', 'url'],
-            'career' => ['sometimes', 'string', 'min:5', 'alpha'],
-            'bio' => ['sometimes', 'string', 'max:5000']
-        ]);
-
-        if($validator->fails()) {
-            return back()->withError($validator->messages()->all())->withInput();
         }
 
         //getting input from user typing
@@ -116,9 +95,24 @@ class ProfileUserController extends Controller {
 
         ]);
 
-        return redirect('/user/my_profile/'.auth()->user()->id.'/'.auth()->user()->name)
-            ->with('success', 'Profile Info has been updated');
+        return redirect()
+            ->route('user.profile.info',auth()->user()->name)
+            ->with('success', 'Profile Information has been updated');
 
+    }
+
+    public function returnPasswordPage() {
+
+        if(session('success')) {
+            Alert::success('Success!', session('success'));
+        }
+
+        //error message flashing
+        if(session('error')) {
+            Alert::error('Error!', session('error'));
+        }
+
+        return view('pages.userProfile.passwordPage',['user' => auth()->user()]);
     }
 
     public function updateUserPassword(Request $request, $id) {
@@ -152,5 +146,17 @@ class ProfileUserController extends Controller {
             ]);
         }
         return redirect()->back()->withSuccess('Password has been updated');
+    }
+
+    public function returnOrderHistory() {
+
+        //getting authenticated user
+        $user = auth()->user();
+        $orders = auth()->user()->orders;
+
+        return view('pages.userProfile.orderHistory')->with([
+            'user' => $user,
+            'orders' => $orders,
+        ]);
     }
 }

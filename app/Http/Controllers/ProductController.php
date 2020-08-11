@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Author;
 use App\Category;
+use App\Language;
 use App\Product;
+use App\Publication;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,22 +50,35 @@ class ProductController extends Controller
 
     public function returnProductForm() {
 
-        $categories = Category::pluck('name', 'id');
-        return view('pages.dashboard.product.productForm', compact('categories'));
+        //getting only children category
+        $categories = Category::whereNotNull('category_id')->pluck('name', 'id');
+        //getting all the author list
+        $authors = Author::pluck('name', 'id');
+        $publishers = Publication::pluck('publisher', 'id');
+        $languages = Language::pluck('name', 'id');
+
+        return view('pages.dashboard.product.productForm')->with([
+            'categories' => $categories,
+            'authors' => $authors,
+            'publishers' => $publishers,
+            'languages' => $languages
+        ]);
     }
 
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(),[
             'name' => ['required', 'string', 'min:5', 'unique:products'],
-            'slug' => ['required', 'string', 'min:5', 'unique:products'],
-            'codes' => ['required', 'string', 'min:5', 'unique:products'],
             'details' => ['required', 'string', 'min:7', 'max:100'],
             'price' => ['required', 'numeric', 'min:1'],
+            'format' => ['required', 'string'],
+            'dimensions' => ['required', 'string'],
+            'publication_date' => ['required', 'date'],
             'quantity' => ['required', 'numeric', 'min:0'],
             'image' => ['required', 'mimes:jpeg,jpg,png','max:10000'],
             'description' => ['required', 'max:5000']
         ]);
+
 
         if($validator->fails()) {
             return redirect()->back()
@@ -70,7 +86,12 @@ class ProductController extends Controller
                 ->withInput();
         }
 
-        $formInput = $request->except('image');
+        $formInput = $request->except(['slug','codes', 'image', 'isbn']);
+
+        $formInput['slug'] = wordwrap(strtolower($request->input('name')), 1, '-', 0);
+        $formInput['codes'] = random_strings(8);
+        $formInput['isbn'] = generateISBN(1000000000000, 9999999999999);
+
         $category_id = $request->category_id;
         $image = $request->image;
 

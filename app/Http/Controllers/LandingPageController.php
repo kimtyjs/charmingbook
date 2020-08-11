@@ -12,7 +12,7 @@ class LandingPageController extends Controller {
         $parentCategories = Category::getParentCategory();
         $randomCategories = Category::inRandomOrder()->take(6)->get();
 
-        return view('pages.landing_page', compact(['parentCategories', 'randomCategories']));
+        return view('pages.landingPage.home', compact(['parentCategories', 'randomCategories']));
 
     }
 

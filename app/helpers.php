@@ -38,7 +38,16 @@ function getNumbers() {
         'newTax' => $newTax,
         'newTotal' => $newTotal
     ]);
+}
 
+function random_strings($length) {
+    //sha1 the timestamp and returns substring
+    return substr(sha1(time()),0, $length);
+}
+
+function generateISBN($min, $max) {
+
+    return random_int($min, $max);
 }
 
 

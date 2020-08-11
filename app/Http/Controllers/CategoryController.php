@@ -30,7 +30,7 @@ class CategoryController extends Controller {
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
-            'name' => ['required', 'unique:categories', 'min:5', 'string', 'alpha'],
+            'name' => ['required', 'unique:categories', 'min:5', 'string'],
             'slug' => ['required', 'string', 'min:5', 'unique:categories']
         ]);
 
@@ -53,7 +53,7 @@ class CategoryController extends Controller {
         //store the children to parent root category
         $parentCategory->parent()->save(Category::create($request->all()));
 
-        return back()->with('success_message', 'Category has been added');
+        return redirect()->route('category.categoryList')->with('success_message', 'Category has been added');
 
     }
 

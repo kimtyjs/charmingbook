@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.front')
 
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/components/user_profile.css')}}">
